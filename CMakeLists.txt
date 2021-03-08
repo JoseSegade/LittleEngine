@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.12)
 
 add_subdirectory("ext/glfw")
 add_subdirectory("ext/glad")
+add_subdirectory("ext/glm/glm")
+
+
 
 #           DOWNLOAD ALL THE SUBMODULES
 find_package(Git QUIET)
@@ -28,6 +31,9 @@ endif()
 if(NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/glad/CMakeLists.txt")
     message(FATAL_ERROR "The glad submodules was not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
+if(NOT EXISTS "${PROJECT_SOURCE_DIR}/ext/glm/glm/CMakeLists.txt")
+    message(FATAL_ERROR "The glm submodules was not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+endif()
 
 find_package(Python3 COMPONENTS Interpreter Development)
 if(NOT PYTHON3_FOUND)
@@ -44,12 +50,14 @@ add_executable("${PROJECT_NAME}"
 target_include_directories("${PROJECT_NAME}"
     PUBLIC "ext/glfw/include"
     PUBLIC "ext/glad/include/glad"
+    PUBLIC "ext/glm"
 )
 
 target_link_directories("${PROJECT_NAME}"
     PRIVATE "ext/glfw/src"
     PRIVATE "ext/glew/src"
+    PRIVATE "ext/glm/glm"
 )
 
-target_link_libraries("${PROJECT_NAME}" glfw glad)
+target_link_libraries("${PROJECT_NAME}" glfw glad glm)
 
