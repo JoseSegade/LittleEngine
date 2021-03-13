@@ -23,26 +23,26 @@ namespace LittleEngine {
 
 	Transform* Transform::CopyFrom(Transform* transform)
 	{
-		this->position = transform->position;
-		this->rotation = transform->rotation;
-		this->scale = transform->scale;
+		position = transform->position;
+		rotation = transform->rotation;
+		scale = transform->scale;
 		return this;
 	}
 
 	Transform* Transform::SetParent(Transform* transform) 
 	{
-		this->parent = transform;
+		parent = transform;
 		return this;
 	}
 
 	glm::vec3 Transform::ToWorldPosition() 
 	{
-		if (!this->parent) 
+		if (!parent) 
 		{
-			return this->position;
+			return position;
 		}
 
-		glm::mat4 worldMatrix = this->GetTransformationMatrix() * this->parent->GetTransformationMatrix();
+		glm::mat4 worldMatrix = GetTransformationMatrix() * parent->GetTransformationMatrix();
 		return glm::vec3(worldMatrix[4].x, worldMatrix[4].y, worldMatrix[4].z);
 	}
 }

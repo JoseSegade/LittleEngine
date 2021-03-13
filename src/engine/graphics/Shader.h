@@ -1,46 +1,37 @@
 #pragma once
+#ifndef SHADER_H_
+#define SHADER_H_
 
 #include <string>
 #include <vector>
 #include <glad/glad.h>
-#include <unordered_map>
-
+#include <iostream>
+#include "engine/utils/FileReader.h"
 
 namespace LittleEngine {
-	enum class VariableType {
-		UNIFORM,
-		ATTRIBUTE
-	};
-
 	class Shader
 	{
 	private:
 		std::string								name;
 		int										id;
-		int										program;
+		unsigned int*							program;
 		GLenum									type;
-		std::unordered_map<std::string, int>	attributes;
-		std::unordered_map<std::string, int>	uniforms;
-
-		void SearchForAttributes();
-		void SearchForUniforms();
-		void SearchAndStoreVariables(VariableType type);
 
 	public:
 		Shader(const std::string& name, GLenum type);
 		~Shader();
 
 		std::string		GetName();
-		int				GetProgram();
+		int				GetId();
+		unsigned int	GetProgram();
+		Shader*			SetProgram(unsigned int* value);
 		GLenum			GetType();
 
-		void			Bind();
-		void			Unbind();
+		Shader*			Bind();
+		Shader*			Unbind();
 
 		GLuint			LoadShader		(const char* fileName);
-		int				GetVariableId	(const std::string& name, const VariableType& type);
-
-
 	};
 }
 
+#endif // !SHADER_H_

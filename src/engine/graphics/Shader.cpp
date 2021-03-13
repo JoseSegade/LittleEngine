@@ -1,58 +1,55 @@
 #include "Shader.h"
-#include <iostream>
 
-LittleEngine::Shader::Shader(const std::string& name, GLenum type): name(name), program(0), type(type)
+LittleEngine::Shader::Shader(const std::string& name, GLenum type): name(name), program(0), type(type), id(0)
 {
 }
 
 LittleEngine::Shader::~Shader()
 {
-	this->attributes.clear();
-	this->uniforms.clear();
-}
-
-void LittleEngine::Shader::SearchForAttributes()
-{
-}
-
-void LittleEngine::Shader::SearchForUniforms()
-{
-}
-
-void LittleEngine::Shader::SearchAndStoreVariables(LittleEngine::VariableType type)
-{
-
 }
 
 std::string LittleEngine::Shader::GetName()
 {
-	return this->name;
+	return name;
 }
 
-int LittleEngine::Shader::GetProgram()
+int LittleEngine::Shader::GetId()
 {
-	return this->program;
+	return id;
+}
+
+unsigned int LittleEngine::Shader::GetProgram()
+{
+	return *program;
+}
+
+LittleEngine::Shader* LittleEngine::Shader::SetProgram(unsigned int* value)
+{
+	program = value;
+	return this;	
 }
 
 GLenum LittleEngine::Shader::GetType()
 {
-	return this->type;
+	return type;
 }
 
-void LittleEngine::Shader::Bind()
+LittleEngine::Shader* LittleEngine::Shader::Bind()
 {
-	glUseProgram(this->program);
+	glUseProgram(*program);
+	return this;
 }
 
-void LittleEngine::Shader::Unbind()
+LittleEngine::Shader* LittleEngine::Shader::Unbind()
 {
 	glUseProgram(0);
+	return this;
 }
 
 GLuint LittleEngine::Shader::LoadShader(const char* fileName)
 {
 	unsigned int fileLen;
-	//char* source = loadStringFromFile(fileName, fileLen);
+	std::string source = LittleEngine::Utils::stringFromFile(fileName, fileLen);
 	GLuint shader = glCreateShader(type);
 	glShaderSource(shader, 1, &fileName, 0);
 	glCompileShader(shader);
@@ -69,10 +66,8 @@ GLuint LittleEngine::Shader::LoadShader(const char* fileName)
 		glDeleteShader(shader);
 		return -1;
 	}
+	id = shader;
 	return shader;
 }
 
-int LittleEngine::Shader::GetVariableId(const std::string& name, const VariableType& type)
-{
-	return 0;
-}
+

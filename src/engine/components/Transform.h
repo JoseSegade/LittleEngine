@@ -18,10 +18,10 @@ namespace LittleEngine
 		Transform();
 		~Transform();
 
-		Transform* CopyFrom(Transform* transform);
-		glm::mat4 GetTransformationMatrix();
-		Transform* SetParent(Transform* transform);
-		glm::vec3 ToWorldPosition();
+		Transform* CopyFrom					(Transform* transform);
+		glm::mat4 GetTransformationMatrix	();
+		Transform* SetParent				(Transform* transform);
+		glm::vec3 ToWorldPosition			();
 	private:
 		Transform* parent;
 	};

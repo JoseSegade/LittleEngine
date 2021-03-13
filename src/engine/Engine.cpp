@@ -25,6 +25,9 @@ LittleEngine::Engine::~Engine()
 
 void LittleEngine::Engine::run() 
 {
+    if (glfwWindowShouldClose(window)) {
+        currentState = LittleEngine::EngineState::EXIT;
+    }
     switch (currentState)
     {
     case LittleEngine::EngineState::PAUSE:
@@ -55,12 +58,12 @@ void LittleEngine::Engine::init() {
     // TODO: Load Scene
     glfwSetWindowUserPointer(window, this);
     glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {        
-        Engine self = *static_cast<Engine*>(glfwGetWindowUserPointer(window));
-        self.resizeWindow( window,  width,  height);    
+        Engine* self = static_cast<Engine*>(glfwGetWindowUserPointer(window));
+        self->resizeWindow( window,  width,  height);    
     });
     glfwSetKeyCallback(window, [](GLFWwindow* window, int k, int s, int action, int mods) {
-        Engine self = *static_cast<Engine*>(glfwGetWindowUserPointer(window));
-        self.key( window, k, s, action, mods);
+        Engine* self = static_cast<Engine*>(glfwGetWindowUserPointer(window));
+        self->key( window, k, s, action, mods);
     });
     //glfwSetCursorPosCallback(window, cursorPosFun);
     //glfwSetMouseButtonCallback(window, mouseButtonFun);
@@ -77,13 +80,13 @@ void LittleEngine::Engine::init() {
 
 void LittleEngine::Engine::resizeWindow(GLFWwindow* window, int width, int height) 
 {
-
+    scene->resize(width, height);
 }
 
 void LittleEngine::Engine::key(GLFWwindow* window, int k, int s, int action, int mods)
 {
     if(action != GLFW_PRESS) return;
-
+    
     if (k == GLFW_KEY_ESCAPE) {        
         currentState = LittleEngine::EngineState::EXIT;
         return;
@@ -93,7 +96,7 @@ void LittleEngine::Engine::key(GLFWwindow* window, int k, int s, int action, int
         return;
     }
 
-    InputManager::instance().key(window, k, s, action, mods);
+    InputManager::instance()->key(window, k, s, action, mods);
 }
 
 void LittleEngine::Engine::mainLoop() 
@@ -110,6 +113,7 @@ void LittleEngine::Engine::mainLoop()
         }
     }
     //scene->render();
+    //TODO:REMOVE
     glViewport(0, 0, width, height);
     glClear(GL_COLOR_BUFFER_BIT);
 

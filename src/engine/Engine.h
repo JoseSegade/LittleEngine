@@ -11,35 +11,43 @@
 #include <engine\managers\InputManager.h>
 #include <engine\scene\IScene.h>
 #include <chrono>
+#include <iostream>
 
-
-namespace LittleEngine {
-	enum class EngineState {
-		LOADING, PLAY, PAUSE, EXIT
+namespace LittleEngine 
+{
+	enum class EngineState 
+	{
+		LOADING, 
+		PLAY, 
+		PAUSE, 
+		EXIT
 	};
-	class Engine {
+
+	class Engine 
+	{
 	private:
-		GLFWwindow* window;
-		IScene* scene;
-		LittleEngine::EngineState currentState;
-		std::chrono::high_resolution_clock::time_point prevTime;
-		double lag;
+		GLFWwindow*											window;
+		IScene*												scene;
+		LittleEngine::EngineState							currentState;
+		std::chrono::high_resolution_clock::time_point		prevTime;
+		double												lag;
 
-		void resizeWindow(GLFWwindow* window, int width, int height);
-		void key(GLFWwindow* window, int k, int s, int action, int mods);
-		void mainLoop();
-		void exit();
+		void resizeWindow	(GLFWwindow* window, int width, int height);
+		void key			(GLFWwindow* window, int k, int s, int action, int mods);
+		void mainLoop		();
+		void exit			();
 	public:
-		Engine(const char* name, int width, int height);
-		~Engine();
-		int width;
-		int height;
-		std::string name;
+		Engine	(const char* name, int width, int height);
+		~Engine	();
 
-		void run();
-		void init();
-		void pause();
-		void play();
+		int				width;
+		int				height;
+		std::string		name;
+
+		void run	();
+		void init	();
+		void pause	();
+		void play	();
 		
 	};
 }
