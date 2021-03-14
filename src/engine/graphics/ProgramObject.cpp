@@ -11,6 +11,11 @@ LittleEngine::ProgramObject::~ProgramObject()
 {
 	attributes.clear();
 	uniforms.clear();
+	for (const auto& shader : shaders) {
+		glDetachShader(id, shader.second->GetId());
+	}
+	shaders.clear();
+	glDeleteProgram(id);
 }
 
 LittleEngine::ProgramObject* LittleEngine::ProgramObject::use()

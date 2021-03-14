@@ -10,7 +10,7 @@ namespace LittleEngine
 	{
 		MeshRenderer* meshRenderer;
 		Material* material;
-		Mesh* mesH;
+		Mesh* mesh;
 	};
 }
 

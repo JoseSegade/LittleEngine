@@ -6,6 +6,7 @@ LittleEngine::Shader::Shader(const std::string& name, GLenum type): name(name), 
 
 LittleEngine::Shader::~Shader()
 {
+	glDeleteShader(id);
 }
 
 std::string LittleEngine::Shader::GetName()
