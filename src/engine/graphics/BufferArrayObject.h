@@ -16,11 +16,18 @@ namespace LittleEngine
 		GLenum								renderMode;
 		unsigned int						sizePerElement;
 		unsigned int						stride;
+		bool								normalized;
+
+		void disableAllAttributes();
 	public:
-		BufferArrayObject(GLenum dataType = GL_FLOAT, GLenum bufferType = GL_ARRAY_BUFFER, GLenum renderMode = GL_TRIANGLES);
+		BufferArrayObject(GLenum dataType = GL_FLOAT, GLenum bufferType = GL_ARRAY_BUFFER, GLenum renderMode = GL_TRIANGLES, bool normalized = false);
 		~BufferArrayObject();
 
-
+		BufferArrayObject* bind				() override;
+		BufferArrayObject* unbind			() override;
+		BufferArrayObject* generateVAO		();
+		BufferArrayObject* addBufferObject	(BufferObject& vbo, std::vector<AttributeVariable*> attributes);
+		BufferArrayObject* draw				();
 	};
 }
 

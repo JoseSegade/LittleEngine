@@ -5,17 +5,21 @@
 #include <string>
 #include <vector>
 #include "engine/graphics/Vertex.h"
+#include "engine/graphics/Triangle.h"
 
 namespace LittleEngine 
 {
 	class Mesh 
 	{
-	private:
-		std::string				name;
-		std::vector<Vertex>		vertices;
-		std::vector<int>		indices;
 		
 	public:
+		std::string				name;
+		std::vector<Triangle>	triangles;
+		std::vector<Vertex>		vertices;
+		Mesh(std::string name) : name(name), vertices(), triangles() {}
+
+		Mesh(const Mesh&)			= delete;
+		void operator=(Mesh const&) = delete;
 	};
 }
 

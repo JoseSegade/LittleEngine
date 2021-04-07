@@ -18,6 +18,7 @@ LittleEngine::Texture::~Texture()
 {
 	unbind();
 	glDeleteTextures(1, &id);
+	delete[] this;
 }
 
 LittleEngine::Texture* LittleEngine::Texture::loadFromFile(const char* path)

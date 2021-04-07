@@ -13,11 +13,11 @@ namespace LittleEngine
 	public:
 		GameObject* gameObject;
 
-		Component();
-		virtual ~Component();
+		Component() : gameObject(nullptr) {}
+		virtual ~Component() = 0;
 
-		virtual void OnStart();
-		virtual void OnUpdate(double deltaTime);
+		virtual void onStart	()					= 0;
+		virtual void onUpdate	(double deltaTime)	= 0;
 
 	};
 }

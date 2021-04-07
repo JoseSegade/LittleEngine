@@ -2,15 +2,19 @@
 #ifndef FRAMEBUFFEROBJECT_H_
 #define FRAMEBIFFERPBJECT_H_
 
+#include "engine\graphics\BufferArrayObject.h"
 #include "engine\graphics\Material.h"
+#include "engine\components\Mesh.h"
 
 namespace LittleEngine
 {
-	class FrameBufferObject 
+	class FrameBufferObject : public BufferObject
 	{
-		MeshRenderer* meshRenderer;
+	private:
 		Material* material;
-		Mesh* mesh;
+
+	public:
+		void setFrameVAO();
 	};
 }
 

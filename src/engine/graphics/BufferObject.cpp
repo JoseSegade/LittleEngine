@@ -20,8 +20,8 @@ unsigned int LittleEngine::BufferObject::calculateDataSize()
 	return 0;
 }
 
-LittleEngine::BufferObject::BufferObject(GLenum dataType = GL_FLOAT, GLenum bufferType = GL_ARRAY_BUFFER):
-	dataType(dataType), bufferType(bufferType), id(0), count(0)
+LittleEngine::BufferObject::BufferObject(GLenum dataType, GLenum bufferType):
+	dataType(dataType), bufferType(bufferType), id(0), size(0)
 {
 }
 
@@ -42,10 +42,12 @@ LittleEngine::BufferObject* LittleEngine::BufferObject::unbind()
 	return this;
 }
 
-LittleEngine::BufferObject* LittleEngine::BufferObject::addDataToShader(const void* data, unsigned int count)
+LittleEngine::BufferObject* LittleEngine::BufferObject::addDataToShader(const void* data, int size)
 {
-	this->count = count;
+	this->size = size;
+	glGenBuffers(1, &id);
 	glBindBuffer(bufferType, id);
-	glBufferData(bufferType, count * calculateDataSize(), data, GL_STATIC_DRAW);
+	unsigned int sizeTimesData = size * calculateDataSize();
+	glBufferData(bufferType, sizeTimesData, data, GL_STATIC_DRAW);
 	return this;
 }

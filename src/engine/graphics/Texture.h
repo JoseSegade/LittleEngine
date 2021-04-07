@@ -13,6 +13,7 @@ namespace LittleEngine
 		UNLOADED,
 		LOADED
 	};
+
 	class Texture {
 	private:
 		TextureState	state;

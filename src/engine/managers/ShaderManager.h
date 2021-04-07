@@ -25,7 +25,8 @@ namespace LittleEngine
 		ShaderManager* useProgram		(const char* programName);
 
 		ProgramObject*	getProgram		(const char* programName);
-		Shader* getShader				(const char* shaderName);
+		Shader*			getShader		(const char* shaderName);
+		Shader*			getShader		(const char* shaderName);
 	};
 }
 

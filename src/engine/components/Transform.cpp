@@ -13,10 +13,10 @@ namespace LittleEngine {
 	glm::mat4 Transform::GetTransformationMatrix()
 	{
 		glm::mat4 ret = glm::mat4(1.f);
-		ret = glm::translate(ret, this->position);
-		glm::mat4 rot = glm::toMat4(this->rotation);
+		ret = glm::translate(ret, position);
+		glm::mat4 rot = glm::toMat4(rotation);
 		ret = ret * rot;
-		ret = glm::scale(ret, this->scale);
+		ret = glm::scale(ret, scale);
 
 		return ret;
 	}
@@ -25,7 +25,7 @@ namespace LittleEngine {
 	{
 		position = transform->position;
 		rotation = transform->rotation;
-		scale = transform->scale;
+		scale    = transform->scale;
 		return this;
 	}
 

@@ -8,23 +8,24 @@ namespace LittleEngine
 {
 	class BufferObject
 	{
-	private:
+	protected:
 		unsigned int	id;
 		GLenum			bufferType;
 		GLenum			dataType;
-		unsigned int	count;
+		unsigned int	size;
 
-	protected:
 		unsigned int calculateDataSize();
 
 	public:
 		BufferObject(GLenum dataType = GL_FLOAT, GLenum bufferType = GL_ARRAY_BUFFER);
 		~BufferObject();
 
+		inline GLenum getDataType() const { return dataType; }
+
 		virtual BufferObject* bind				();
 		virtual BufferObject* unbind			();
 
-		virtual BufferObject* addDataToShader	(const void* data, unsigned int count);
+		virtual BufferObject* addDataToShader	(const void* data, int size);
 	};
 }
 
