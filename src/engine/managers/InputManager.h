@@ -11,6 +11,7 @@ namespace LittleEngine
 	{
 	public:
 		void key(GLFWwindow* window, int k, int s, int action, int mods);
+		void destroy() override {}
 	};
 }
 

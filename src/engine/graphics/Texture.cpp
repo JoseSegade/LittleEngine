@@ -23,15 +23,15 @@ LittleEngine::Texture::~Texture()
 
 LittleEngine::Texture* LittleEngine::Texture::loadFromFile(const char* path)
 {
-	unsigned char* map = Utils::loadImageFromFile(path, &width, &height);
-	if (!map) return this;
+	std::vector<unsigned char> map = Utils::loadImageFromFile(path, &width, &height);
+	if (map.size() < 1) return this;
 
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA,
-		GL_UNSIGNED_BYTE, (void*)map);
-	delete[] map;
+		GL_UNSIGNED_BYTE, (void*)map.data());
+	map.clear();
 	if (isTexturePowerOf2())
 	{
 		glGenerateMipmap(GL_TEXTURE_2D);
@@ -50,8 +50,9 @@ LittleEngine::Texture* LittleEngine::Texture::loadFromFile(const char* path)
 	return this;
 }
 
-LittleEngine::Texture* LittleEngine::Texture::bind()
+LittleEngine::Texture* LittleEngine::Texture::bind(unsigned int idTexture)
 {
+	glActiveTexture(GL_TEXTURE0 + idTexture);
 	glBindTexture(GL_TEXTURE_2D, id);
 	return this;
 }

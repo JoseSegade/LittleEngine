@@ -73,7 +73,12 @@ void LittleEngine::Engine::init() {
     glfwSwapInterval(1);
 
     glfwGetFramebufferSize(window, &width, &height);
+
+    scene = new Scene1();
+    scene->load();
+    
     resizeWindow(window, width, height);
+
 
     play();
 }
@@ -108,11 +113,11 @@ void LittleEngine::Engine::mainLoop()
         lag += elapsed;
 
         while (lag >= MS_PER_UPDATE) {
-            //scene->update(elapsed);
+            scene->update(elapsed);
             lag -= MS_PER_UPDATE;
         }
     }
-    //scene->render();
+    scene->render();
     //TODO:REMOVE
     glViewport(0, 0, width, height);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -123,6 +128,7 @@ void LittleEngine::Engine::mainLoop()
 }
 
 void LittleEngine::Engine::exit() {
+    delete scene;
     glfwTerminate();
     std::exit(EXIT_SUCCESS);
 }

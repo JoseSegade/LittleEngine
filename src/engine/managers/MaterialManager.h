@@ -24,11 +24,13 @@ namespace LittleEngine
 		MaterialManager*	deleteMaterial			(const char* name);
 
 		// Texture relative
-		MaterialManager*	loadTexture				(const char* name, const char* path);
+		MaterialManager*	loadTexture				(const char* name, const char* path, const unsigned int textureId);
 		Texture*			getTexture				(const char* name);
 		MaterialManager*	deleteTexture			(const char* name);
 
 		MaterialManager*	asignTextureToMaterial	(const char* textureName, const char* materialName);
+
+		void				destroy					() override;
 
 	};
 }

@@ -12,20 +12,22 @@ namespace LittleEngine
 		unsigned int	id;
 		GLenum			bufferType;
 		GLenum			dataType;
+		GLenum			renderMode;
 		unsigned int	size;
 
 		unsigned int calculateDataSize();
 
 	public:
-		BufferObject(GLenum dataType = GL_FLOAT, GLenum bufferType = GL_ARRAY_BUFFER);
+		BufferObject(GLenum dataType = GL_FLOAT, GLenum bufferType = GL_ARRAY_BUFFER, GLenum renderMode = GL_TRIANGLES);
 		~BufferObject();
 
-		inline GLenum getDataType() const { return dataType; }
+		inline GLenum			getDataType		() const { return dataType; }
 
-		virtual BufferObject* bind				();
-		virtual BufferObject* unbind			();
+		virtual BufferObject*	bind			();
+		virtual BufferObject*	unbind			();
+		virtual BufferObject*	render			();
 
-		virtual BufferObject* addDataToShader	(const void* data, int size);
+		virtual BufferObject*	addDataToShader	(const void* data, int size);
 	};
 }
 

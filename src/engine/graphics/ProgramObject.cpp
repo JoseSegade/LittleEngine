@@ -31,6 +31,12 @@ LittleEngine::ProgramObject* LittleEngine::ProgramObject::use()
 	return this;
 }
 
+LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform1i(unsigned int variableLocation, unsigned int index)
+{
+	glUniform1i(variableLocation, index);
+	return this;
+}
+
 int LittleEngine::ProgramObject::getVariableId(const std::string& name, const VariableType& type)
 {
 	return type == VariableType::ATTRIBUTE ? attributes[name] : uniforms[name];
@@ -77,6 +83,7 @@ LittleEngine::ProgramObject* LittleEngine::ProgramObject::loadProgram()
 	searchForAttributes();
 	searchForUniforms();
 
+	state = ProgramState::LOADED;
 	return this;
 }
 

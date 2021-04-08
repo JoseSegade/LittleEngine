@@ -26,7 +26,8 @@ namespace LittleEngine
 
 		ProgramObject*	getProgram		(const char* programName);
 		Shader*			getShader		(const char* shaderName);
-		Shader*			getShader		(const char* shaderName);
+
+		void			destroy			() override;
 	};
 }
 

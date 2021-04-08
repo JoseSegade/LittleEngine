@@ -17,7 +17,10 @@ namespace LittleEngine
 		FrameBufferObject*	fbo;
 	public: 
 		Renderer();
+		~Renderer();
 
+		void		renderFBO								(ProgramObject* programObject);
+		Renderer*	createFBO								();
 		Renderer*	changeBackgroungColor					(glm::vec4 color);
 		Renderer*	startRenderConfig						();
 		Renderer*	clearBuffersFw							();

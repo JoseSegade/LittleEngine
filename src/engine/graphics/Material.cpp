@@ -1,6 +1,6 @@
 #include "Material.h"
 
-LittleEngine::Material::Material(const char* name) : name(name), textures(), programObject(nullptr)
+LittleEngine::Material::Material(const char* name) : name(name), textures()
 {
 
 }
@@ -61,4 +61,19 @@ LittleEngine::Texture* LittleEngine::Material::removeTexture(const char* name)
 	Texture* ret = textures[name];
 	textures.erase(name);
 	return ret;
+}
+
+LittleEngine::Material* LittleEngine::Material::bindMaterialToProgram(ProgramObject* program)
+{
+	//	TODO: If material has more uniform params add them to program.
+	unsigned int textureId = 0;
+	for (std::pair<std::string, Texture*> texture : textures)
+	{
+		texture.second->bind(textureId);
+		program->setUniform1i(texture.second->getUniformLocation(), textureId);
+
+		++textureId;
+	}
+
+	return this;
 }

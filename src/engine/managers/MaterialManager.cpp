@@ -38,7 +38,7 @@ LittleEngine::MaterialManager* LittleEngine::MaterialManager::deleteMaterial(con
 	return this;
 }
 
-LittleEngine::MaterialManager* LittleEngine::MaterialManager::loadTexture(const char* name, const char* path)
+LittleEngine::MaterialManager* LittleEngine::MaterialManager::loadTexture(const char* name, const char* path, const unsigned int textureId)
 {
 	if (textures.count(name) > 0)
 	{
@@ -94,4 +94,19 @@ LittleEngine::MaterialManager* LittleEngine::MaterialManager::asignTextureToMate
 
 	materials[materialName]->addTexture(textureName, textures[textureName]);
 	return this;
+}
+
+void LittleEngine::MaterialManager::destroy()
+{
+	for (std::pair<std::string, Texture*> texture: textures)
+	{
+		delete texture.second;
+	}
+	textures.clear();
+
+	for (std::pair<std::string, Material*> material : materials)
+	{
+		delete material.second;
+	}
+	materials.clear();
 }

@@ -18,6 +18,7 @@ namespace LittleEngine
 	private:
 		TextureState	state;
 		std::string		name;
+		unsigned int	shaderUniformVariableId;
 		unsigned int	id;
 		int				width;
 		int				height;
@@ -31,9 +32,10 @@ namespace LittleEngine
 		Texture(Texture const&) = delete;
 		Texture operator=(Texture const &) = delete;
 
-		Texture* loadFromFile	(const char* path);
-		Texture* bind			();
-		Texture* unbind			();
+		inline unsigned int getUniformLocation	() const { return shaderUniformVariableId; }
+		Texture*			loadFromFile		(const char* path);
+		Texture*			bind				(unsigned int idTexture);
+		Texture*			unbind				();
 	};
 }
 

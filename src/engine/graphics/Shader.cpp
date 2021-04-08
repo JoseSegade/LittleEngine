@@ -50,9 +50,9 @@ LittleEngine::Shader* LittleEngine::Shader::Unbind()
 GLuint LittleEngine::Shader::LoadShader(const char* fileName)
 {
 	unsigned int fileLen;
-	std::string source = LittleEngine::Utils::stringFromFile(fileName, fileLen);
+	char* source = LittleEngine::Utils::stringFromFile(fileName, fileLen);
 	GLuint shader = glCreateShader(type);
-	glShaderSource(shader, 1, &fileName, 0);
+	glShaderSource(shader, 1, (const GLchar **)&source, (const GLint*)&fileLen);
 	glCompileShader(shader);
 
 	GLint isCompiled = 0;

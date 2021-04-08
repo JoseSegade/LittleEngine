@@ -1,16 +1,28 @@
 #include "GameObject.h"
 
 
-LittleEngine::GameObject::GameObject(unsigned int id, const char* name) : id(id), name(name), transform(new Transform()), children(), components()
+LittleEngine::GameObject::GameObject(unsigned int id, const char* name) : id(id), name(name), transform(new Transform()), children(), components(), m_isVisible(true)
 {
 }
 
-LittleEngine::GameObject::GameObject(unsigned int id, const char* name, Transform* t) :id(id), name(name), transform(t), children(), components()
+LittleEngine::GameObject::GameObject(unsigned int id, const char* name, Transform* t) :id(id), name(name), transform(t), children(), components(), m_isVisible(true)
 {
 }
 
 LittleEngine::GameObject::~GameObject()
 {
+	for (Component* component : components)
+	{
+		delete component;
+	}
+	components.clear();
+	for (GameObject* gameObject : children)
+	{
+		delete gameObject;
+	}
+	children.clear();
+	delete transform;
+	delete[] this;
 }
 
 void LittleEngine::GameObject::onStart()
@@ -37,6 +49,25 @@ void LittleEngine::GameObject::onUpdate(double deltaTime)
 	for (Component* component : components)
 	{
 		component->onUpdate(deltaTime);
+	}
+}
+
+void LittleEngine::GameObject::onRender()
+{
+	if (m_isVisible)
+	{
+		for (Component* component : components)
+		{
+			MeshRenderer* meshRenderer = dynamic_cast<MeshRenderer*>(component);
+			if (meshRenderer != nullptr)
+			{
+				meshRenderer->onRender();
+			}
+		}
+		for (GameObject* gameObject : children)
+		{
+			gameObject->onRender();
+		}
 	}
 }
 

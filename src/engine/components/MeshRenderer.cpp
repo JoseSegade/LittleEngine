@@ -1,5 +1,12 @@
 #include "MeshRenderer.h"
 
+LittleEngine::MeshRenderer::~MeshRenderer()
+{
+	delete vao;
+	delete indexBuffer;
+	delete[] this;
+}
+
 void LittleEngine::MeshRenderer::initializeVAOData(ProgramObject* program)
 {
 	// TODO: Optimice this monstuous chunk of code.
@@ -79,7 +86,9 @@ void LittleEngine::MeshRenderer::onUpdate(double deltaTime)
 {
 }
 
-void LittleEngine::MeshRenderer::render(Renderer* renderer)
+void LittleEngine::MeshRenderer::onRender()
 {
-
+	vao->bind();
+	// TODO: setup matrices
+	indexBuffer->render();
 }

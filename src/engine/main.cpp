@@ -1,5 +1,3 @@
-#include <clocale>
-#include <iostream>
 #include "Engine.h"
 
 int main(void)

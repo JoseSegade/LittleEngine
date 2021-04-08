@@ -23,3 +23,12 @@ LittleEngine::Mesh* LittleEngine::ObjectManager::getMesh(const char* name)
 
 	return meshes[name];
 }
+
+void LittleEngine::ObjectManager::destroy()
+{
+	for (std::pair<std::string, Mesh*> mesh : meshes)
+	{
+		delete mesh.second;
+	}
+	meshes.clear();
+}

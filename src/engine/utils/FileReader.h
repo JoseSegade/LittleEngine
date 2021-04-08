@@ -3,14 +3,13 @@
 #define FILEREADER_H_
 
 #include <fstream>
-#include <string>
 #include <streambuf>
 
 namespace LittleEngine 
 {
 	namespace Utils 
 	{
-		std::string stringFromFile(const char* filePath, unsigned int &length);
+		char* stringFromFile(const char* filePath, unsigned int &length);
 	}
 }
 

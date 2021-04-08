@@ -9,7 +9,7 @@
 
 namespace LittleEngine 
 {
-	class BufferArrayObject : BufferObject
+	class BufferArrayObject : public BufferObject
 	{
 	private:
 		std::vector<AttributeVariable*>		attributes;
@@ -25,9 +25,9 @@ namespace LittleEngine
 
 		BufferArrayObject* bind				() override;
 		BufferArrayObject* unbind			() override;
+		BufferArrayObject* render			() override;
 		BufferArrayObject* generateVAO		();
 		BufferArrayObject* addBufferObject	(BufferObject& vbo, std::vector<AttributeVariable*> attributes);
-		BufferArrayObject* draw				();
 	};
 }
 

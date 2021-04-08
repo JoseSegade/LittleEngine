@@ -4,7 +4,8 @@
 
 namespace LittleEngine 
 {
-	template <typename T> class ISingleton 
+	template <typename T> 
+	class ISingleton 
 	{
 	public:
 		static T* instance() 
@@ -17,6 +18,8 @@ namespace LittleEngine
 	public:
 		ISingleton<T>(ISingleton<T> const&) = delete;
 		void operator=(T const&) = delete;
+
+		virtual void destroy() = 0;
 	};
 }
 

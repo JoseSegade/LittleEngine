@@ -2,19 +2,35 @@
 #ifndef FRAMEBUFFEROBJECT_H_
 #define FRAMEBIFFERPBJECT_H_
 
-#include "engine\graphics\BufferArrayObject.h"
-#include "engine\graphics\Material.h"
-#include "engine\components\Mesh.h"
+#include <vector>
+#include "engine/graphics/BufferArrayObject.h"
+#include "engine/graphics/Material.h"
+#include "engine/components/Mesh.h"
+#include "engine/utils/PlaneFBO.h"
 
 namespace LittleEngine
 {
 	class FrameBufferObject : public BufferObject
 	{
 	private:
-		Material* material;
-
+		unsigned int planeVAOid;
+		unsigned int planeVBOid;
+		unsigned int colorBufferTextureId;
+		unsigned int depthBufferTextureId;
+		unsigned int positionBufferTextureId;
+		unsigned int colorTextureLocation;
+		unsigned int positionTextureLocation;
 	public:
-		void setFrameVAO();
+		~FrameBufferObject();
+
+		FrameBufferObject*	setColorTextureLocation		(const unsigned int value);
+		FrameBufferObject*	setPositionTextureLocation	(const unsigned int value);
+		FrameBufferObject*	setFrameVAO					();
+		FrameBufferObject*	generate					();
+		FrameBufferObject*	resize						(unsigned int width, unsigned int height);
+		FrameBufferObject*	bind						() override;
+		FrameBufferObject*	unbind						() override;
+		void				render						(ProgramObject* program);
 	};
 }
 

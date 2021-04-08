@@ -10,7 +10,7 @@ void LittleEngine::BufferArrayObject::disableAllAttributes()
 
 LittleEngine::BufferArrayObject::BufferArrayObject(GLenum dataType, GLenum bufferType,
 	GLenum renderMode, bool normalized) :
-	BufferObject(dataType, bufferType), stride(0), sizePerElement(0), renderMode(renderMode), attributes(), normalized(normalized)
+	BufferObject(dataType, bufferType, renderMode), stride(0), sizePerElement(0), attributes(), normalized(normalized)
 {	
 }
 
@@ -59,18 +59,9 @@ LittleEngine::BufferArrayObject* LittleEngine::BufferArrayObject::addBufferObjec
 	return this;
 }
 
-LittleEngine::BufferArrayObject* LittleEngine::BufferArrayObject::draw()
+LittleEngine::BufferArrayObject* LittleEngine::BufferArrayObject::render()
 {
-	switch (bufferType) {
-	case GL_ARRAY_BUFFER:
-		glDrawArrays(renderMode, 0, size);
-		break;
-	case GL_ELEMENT_ARRAY_BUFFER:
-		glDrawElements(renderMode, size, bufferType, nullptr);
-		break;
-	default:
-		printf("This should never happen. File %s, line %f.", __FILE__, __LINE__);
-	}
+	glDrawElements(renderMode, size, bufferType, nullptr);
 	return this;
 }
 

@@ -8,10 +8,11 @@
 #define MS_PER_UPDATE 1000./60.
 
 #include <string>
-#include <engine\managers\InputManager.h>
-#include <engine\scene\IScene.h>
 #include <chrono>
 #include <iostream>
+#include "engine/managers/InputManager.h"
+#include "engine/scene/IScene.h"
+#include "engine/scene/scenes/Scene1.cpp"
 
 namespace LittleEngine 
 {

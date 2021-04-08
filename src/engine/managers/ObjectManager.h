@@ -17,8 +17,10 @@ namespace LittleEngine
 		std::unordered_map<std::string, Mesh*> meshes;
 	public:
 		// TODO: CRUD of meshes
-		Mesh*			loadMesh	(const char* name, const char* path);
-		Mesh*			getMesh		(const char* name);
+		Mesh* loadMesh	(const char* name, const char* path);
+		Mesh* getMesh	(const char* name);
+
+		void  destroy	() override;
 	};
 }
 

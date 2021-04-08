@@ -16,17 +16,19 @@ namespace LittleEngine
 		BufferArrayObject*	vao;
 		BufferObject*		indexBuffer;
 		Mesh*				mesh;
+		Material*			material;
 	public:
-		MeshRenderer();
+		MeshRenderer(): Component(), vao(nullptr), indexBuffer(nullptr), mesh(nullptr), material(nullptr) {}
 		~MeshRenderer();
 
-		inline void		setMesh				(Mesh* value) { mesh = value; }
+		inline void		setMesh				(Mesh* value)		{ mesh = value; }
+		inline void		setMaterial			(Material* value)	{ material = value; }
 
 		void			initializeVAOData	(ProgramObject* program);
 
 		void			onStart				();
 		void			onUpdate			(double deltaTime);
-		void			render				(Renderer* renderer);
+		void			onRender			();
 	};
 }
 

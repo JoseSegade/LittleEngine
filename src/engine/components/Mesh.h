@@ -16,7 +16,13 @@ namespace LittleEngine
 		std::string				name;
 		std::vector<Triangle>	triangles;
 		std::vector<Vertex>		vertices;
+
 		Mesh(std::string name) : name(name), vertices(), triangles() {}
+		~Mesh() 
+		{ 
+			triangles.clear();
+			vertices.clear();
+		};
 
 		Mesh(const Mesh&)			= delete;
 		void operator=(Mesh const&) = delete;

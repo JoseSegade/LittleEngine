@@ -99,3 +99,12 @@ LittleEngine::Shader* LittleEngine::ShaderManager::getShader(const char* shaderN
 	}
 	return shaders[shaderName];
 }
+
+void LittleEngine::ShaderManager::destroy()
+{
+	for (std::pair<std::string, ProgramObject*> program : programs)
+	{
+		delete program.second;
+	}
+	programs.clear();	
+}

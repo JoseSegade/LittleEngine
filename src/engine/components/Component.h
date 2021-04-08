@@ -3,18 +3,18 @@
 #define COMPONENT_H_
 
 #include <string>
-class GameObject;
 #include "engine/scene/GameObject.h"
 
 namespace LittleEngine 
 {
+	class GameObject;
 	class Component 
 	{
 	public:
 		GameObject* gameObject;
 
-		Component() : gameObject(nullptr) {}
-		virtual ~Component() = 0;
+		//Component() : gameObject(nullptr) {}
+		//virtual ~Component() = 0;
 
 		virtual void onStart	()					= 0;
 		virtual void onUpdate	(double deltaTime)	= 0;

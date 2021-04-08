@@ -20,8 +20,8 @@ unsigned int LittleEngine::BufferObject::calculateDataSize()
 	return 0;
 }
 
-LittleEngine::BufferObject::BufferObject(GLenum dataType, GLenum bufferType):
-	dataType(dataType), bufferType(bufferType), id(0), size(0)
+LittleEngine::BufferObject::BufferObject(GLenum dataType, GLenum bufferType, GLenum renderMode) :
+	dataType(dataType), bufferType(bufferType), renderMode(renderMode), id(0), size(0)
 {
 }
 
@@ -39,6 +39,12 @@ LittleEngine::BufferObject* LittleEngine::BufferObject::bind()
 LittleEngine::BufferObject* LittleEngine::BufferObject::unbind()
 {
 	glBindBuffer(bufferType, 0);
+	return this;
+}
+
+LittleEngine::BufferObject* LittleEngine::BufferObject::render()
+{
+	glDrawElements(renderMode, size, GL_UNSIGNED_INT, (void*)0);
 	return this;
 }
 

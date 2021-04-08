@@ -19,9 +19,6 @@ namespace LittleEngine
 
 		std::unordered_map<std::string, Texture*> textures;
 
-		// ???
-		ProgramObject* programObject;
-
 	public: 
 		Material(const char* name);
 		~Material();
@@ -29,10 +26,11 @@ namespace LittleEngine
 		Material(const Material&)		= delete;
 		void operator=(Material const&) = delete;
 
-		Material* addTexture(const char* name, Texture* texture);
-		Texture* changeTexture(const char* name, Texture* texture);
-		Texture* getTexture(const char* name);
-		Texture* removeTexture(const char* name);
+		Material*	addTexture				(const char* name, Texture* texture);
+		Texture*	changeTexture			(const char* name, Texture* texture);
+		Texture*	getTexture				(const char* name);
+		Texture*	removeTexture			(const char* name);
+		Material*	bindMaterialToProgram	(ProgramObject* program);
 	};
 }
 
