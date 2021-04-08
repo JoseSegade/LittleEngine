@@ -52,7 +52,7 @@ void LittleEngine::GameObject::onUpdate(double deltaTime)
 	}
 }
 
-void LittleEngine::GameObject::onRender()
+void LittleEngine::GameObject::onRender(ProgramObject* program, ViewProj &viewProj)
 {
 	if (m_isVisible)
 	{
@@ -61,12 +61,12 @@ void LittleEngine::GameObject::onRender()
 			MeshRenderer* meshRenderer = dynamic_cast<MeshRenderer*>(component);
 			if (meshRenderer != nullptr)
 			{
-				meshRenderer->onRender();
+				meshRenderer->onRender(program, viewProj);
 			}
 		}
 		for (GameObject* gameObject : children)
 		{
-			gameObject->onRender();
+			gameObject->onRender(program, viewProj);
 		}
 	}
 }
@@ -80,6 +80,10 @@ void LittleEngine::GameObject::addComponent(Component* component)
 {
 	component->gameObject = this;
 	components.push_back(component);
+}
+
+void LittleEngine::GameObject::updateTransformationMatrix()
+{
 }
 
 LittleEngine::GameObject* LittleEngine::GameObject::getChildById(unsigned int id)

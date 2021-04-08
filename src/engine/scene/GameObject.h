@@ -8,6 +8,7 @@
 class Component;
 #include "engine/components/Component.h"
 #include "engine/components/Transform.h"
+#include "engine/graphics/Renderer.h"
 #include "engine/components/MeshRenderer.h"
 
 namespace LittleEngine
@@ -22,12 +23,13 @@ namespace LittleEngine
 		~GameObject();
 
 		
-		void onStart					();
-		void onUpdate					(double deltaTime);
-		void onRender					();
+		virtual void onStart			();
+		virtual void onUpdate			(double deltaTime);
+		virtual void onRender			(ProgramObject* program, ViewProj &viewProj);
 
 		void addChild					(GameObject* child);
 		void addComponent				(Component* component);
+		void updateTransformationMatrix	();
 
 		inline void turnVisibilityOn	() { m_isVisible = true; }
 		inline void turnVisibilityOff	() { m_isVisible = false; }
@@ -39,10 +41,10 @@ namespace LittleEngine
 		template<typename T>
 		T*	getComponent				()				  const;
 
+		Transform*					transform;
 	private:
 		std::vector<Component*>		components;
 		std::vector<GameObject*>	children;
-		Transform*					transform;
 		bool						m_isVisible;
 	};
 

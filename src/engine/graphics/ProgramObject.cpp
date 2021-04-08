@@ -37,6 +37,12 @@ LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform1i(unsigned 
 	return this;
 }
 
+LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniformMatrix4fv(unsigned int variableLocation, const float* values, unsigned int count)
+{
+	glUniformMatrix4fv(variableLocation, )
+	return this;
+}
+
 int LittleEngine::ProgramObject::getVariableId(const std::string& name, const VariableType& type)
 {
 	return type == VariableType::ATTRIBUTE ? attributes[name] : uniforms[name];

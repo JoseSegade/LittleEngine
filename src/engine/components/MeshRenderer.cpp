@@ -86,9 +86,10 @@ void LittleEngine::MeshRenderer::onUpdate(double deltaTime)
 {
 }
 
-void LittleEngine::MeshRenderer::onRender()
+void LittleEngine::MeshRenderer::onRender(ProgramObject* program, ViewProj &viewProj)
 {
+	unsigned int modelLocation = program->getVariableId("model", LittleEngine::VariableType::UNIFORM);
+	program->setUniformMatrix4fv(modelLocation, &gameObject->transform->GetTransformationMatrix()[0][0], 1);
 	vao->bind();
-	// TODO: setup matrices
 	indexBuffer->render();
 }

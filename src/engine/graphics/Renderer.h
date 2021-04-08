@@ -28,9 +28,6 @@ namespace LittleEngine
 		Renderer*	resize									(int width, int height);
 		Renderer*	uploadTimeToProgram						(ProgramObject* program);
 		Renderer*	uploadResolutionToProgram				(ProgramObject* program);
-		Renderer*	uploadViewMatrixToProgram				(ProgramObject* program, glm::mat4 view);
-		Renderer*	uploadProjectionMatrixToProgram			(ProgramObject* program, glm::mat4 proj);
-		Renderer*	uploadViewProjectionMatricesToProgram	(ProgramObject* program, ViewProj* viewProj);
 	};
 }
 

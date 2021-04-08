@@ -4,6 +4,8 @@
 #include "engine/managers/ObjectManager.h"
 #include "engine/managers/MaterialManager.h"
 #include "engine/scene/GameObject.h"
+#include "engine/scene/Camera.h"
+#include "engine/scene/Light.h"
 #include "engine/utils/OBJReader.h"
 #include "engine/components/MeshRenderer.h"
 
@@ -28,6 +30,8 @@ namespace LittleEngine
 
 		Renderer* renderer;
 		std::vector<GameObject*> gameObjects;
+		std::vector<Light*> lights;
+		Camera* camera;
 
 		void createPrograms() 
 		{
@@ -54,7 +58,11 @@ namespace LittleEngine
 		{
 			//TODO: FUTURE IMPLEMENTATIONS - CREATE CONFIGURATION FILES CONTAINING OBJECTS.
 
-			GameObject*		obj				= new GameObject	(0, "OBJ_TEST");
+			camera = new Camera(0, "CAMERA", CameraProjection::PERSPECTIVE);
+
+			gameObjects.push_back(camera);
+
+			GameObject*		obj				= new GameObject	(1, "OBJ_TEST");
 			MeshRenderer*	meshRendererOBJ	= new MeshRenderer	();				
 
 			MaterialManager::instance()
@@ -74,6 +82,7 @@ namespace LittleEngine
 			obj->addComponent(meshRendererOBJ);
 
 			gameObjects.push_back(obj);
+
 		}
 
 	public:
@@ -94,6 +103,7 @@ namespace LittleEngine
 		void resize(int width, int height)
 		{
 			renderer->resize(width, height);
+			camera->updateProportions(width, height);
 		}
 
 		void load()
@@ -112,7 +122,7 @@ namespace LittleEngine
 			ShaderManager::instance()->useProgram(PROGRAM_NAME);
 			for (GameObject* go : gameObjects)
 			{
-				go->onRender();
+				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME));
 			}
 			renderer->clearBuffersPP();
 			ShaderManager::instance()->useProgram(PROGRAM_NAME_PP);

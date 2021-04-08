@@ -28,7 +28,7 @@ namespace LittleEngine
 
 		void			onStart				();
 		void			onUpdate			(double deltaTime);
-		void			onRender			();
+		void			onRender			(ProgramObject* program, ViewProj &viewProj);
 	};
 }
 
