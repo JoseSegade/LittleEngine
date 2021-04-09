@@ -11,13 +11,13 @@ LittleEngine::FrameBufferObject::~FrameBufferObject()
 	delete[] this;
 }
 
-LittleEngine::FrameBufferObject* LittleEngine::FrameBufferObject::setColorTextureLocation(const unsigned int value)
+LittleEngine::FrameBufferObject* LittleEngine::FrameBufferObject::setColorTextureLocation(const int value)
 {
 	colorTextureLocation = value;
 	return this;
 }
 
-LittleEngine::FrameBufferObject* LittleEngine::FrameBufferObject::setPositionTextureLocation(const unsigned int value)
+LittleEngine::FrameBufferObject* LittleEngine::FrameBufferObject::setPositionTextureLocation(const int value)
 {
 	positionTextureLocation = value;
 	return this;
@@ -87,9 +87,9 @@ LittleEngine::FrameBufferObject* LittleEngine::FrameBufferObject::resize(unsigne
 
 
 	glBindFramebuffer(GL_FRAMEBUFFER, id);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, colorBufferTextureId,    0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, colorBufferTextureId   , 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, positionBufferTextureId, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,  GL_TEXTURE_2D, depthBufferTextureId,    0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT , GL_TEXTURE_2D, depthBufferTextureId   , 0);
 
 	const GLenum buffs[] = { GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(2, buffs);
@@ -127,7 +127,7 @@ void LittleEngine::FrameBufferObject::render(ProgramObject* program)
 
 	if (positionTextureLocation != -1)
 	{
-		glActiveTexture(GL_TEXTURE0 + 1);
+		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, positionBufferTextureId);
 		program->setUniform1i(positionTextureLocation, 1);
 	}

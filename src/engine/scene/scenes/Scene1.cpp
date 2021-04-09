@@ -114,7 +114,7 @@ namespace LittleEngine
 			renderer = new Renderer();
 			renderer
 				->startRenderConfig()
-				->createFBO();
+				->createFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));
 		}
 
 		void render()

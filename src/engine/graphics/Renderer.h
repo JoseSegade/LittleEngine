@@ -20,7 +20,7 @@ namespace LittleEngine
 		~Renderer();
 
 		void		renderFBO								(ProgramObject* programObject);
-		Renderer*	createFBO								();
+		Renderer*	createFBO								(ProgramObject* programObject);
 		Renderer*	changeBackgroungColor					(glm::vec4 color);
 		Renderer*	startRenderConfig						();
 		Renderer*	clearBuffersFw							();

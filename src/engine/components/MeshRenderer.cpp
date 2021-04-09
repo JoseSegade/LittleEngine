@@ -108,6 +108,8 @@ void LittleEngine::MeshRenderer::onUpdate(double deltaTime)
 
 void LittleEngine::MeshRenderer::onRender(ProgramObject* program, ViewProj &viewProj)
 {
+	material->bindMaterialToProgram(program);
+
 	unsigned int normalLocation			= program->getVariableId("normal", LittleEngine::VariableType::UNIFORM);
 	unsigned int modelViewLocation		= program->getVariableId("modelView", LittleEngine::VariableType::UNIFORM);
 	unsigned int modelViewProjLocation	= program->getVariableId("modelViewProj", LittleEngine::VariableType::UNIFORM);

@@ -18,13 +18,13 @@ namespace LittleEngine
 		unsigned int colorBufferTextureId;
 		unsigned int depthBufferTextureId;
 		unsigned int positionBufferTextureId;
-		unsigned int colorTextureLocation;
-		unsigned int positionTextureLocation;
+		int			 colorTextureLocation;
+		int			 positionTextureLocation;
 	public:
 		~FrameBufferObject();
 
-		FrameBufferObject*	setColorTextureLocation		(const unsigned int value);
-		FrameBufferObject*	setPositionTextureLocation	(const unsigned int value);
+		FrameBufferObject*	setColorTextureLocation		(const int value);
+		FrameBufferObject*	setPositionTextureLocation	(const int value);
 		FrameBufferObject*	setFrameVAO					();
 		FrameBufferObject*	generate					();
 		FrameBufferObject*	resize						(unsigned int width, unsigned int height);

@@ -15,11 +15,13 @@ void LittleEngine::Renderer::renderFBO(ProgramObject* programObject)
     fbo->render(programObject);
 }
 
-LittleEngine::Renderer* LittleEngine::Renderer::createFBO()
+LittleEngine::Renderer* LittleEngine::Renderer::createFBO(ProgramObject* programObject)
 {
     fbo = new FrameBufferObject();
     fbo->generate()
-       ->setFrameVAO();
+        ->setFrameVAO()
+        ->setColorTextureLocation(programObject->getVariableId("colorTex", VariableType::UNIFORM))
+        ->setPositionTextureLocation(programObject->getVariableId("posTex", VariableType::UNIFORM));
     return this;
 }
 
@@ -54,8 +56,10 @@ LittleEngine::Renderer* LittleEngine::Renderer::clearBuffersPP()
     fbo->unbind();
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_CONSTANT_COLOR, GL_CONSTANT_ALPHA);
+    //glBlendColor(0.3, 0.3, 0.3, 0.7);
+    //glBlendEquation(GL_FUNC_ADD);
     return this;
 }
 
