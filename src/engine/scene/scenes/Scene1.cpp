@@ -20,7 +20,7 @@ namespace LittleEngine
 		const char* VERTEX_SHADER_PATH		= "../shaders/fwRendering.vert";
 		const char* FRAGMENT_SHADER_PATH	= "../shaders/fwRendering.frag";
 		const char* OBJ_PATH				= "../objs/cube.obj";
-		const char* TEX01_PATH				= "../textures/color.png";
+		const char* TEX01_PATH				= "../textures/cube.png";
 
 		const char* PROGRAM_NAME_PP			= "ProgramPP";
 		const char* VERTEX_SHADER_NAME_PP	= "VertexShaderPP";
@@ -59,6 +59,7 @@ namespace LittleEngine
 			//TODO: FUTURE IMPLEMENTATIONS - CREATE CONFIGURATION FILES CONTAINING OBJECTS.
 
 			camera = new Camera(0, "CAMERA", CameraProjection::PERSPECTIVE);
+			camera->transform->position.z = 6.f;
 
 			gameObjects.push_back(camera);
 
@@ -81,7 +82,7 @@ namespace LittleEngine
 
 			obj->addComponent(meshRendererOBJ);
 
-			gameObjects.push_back(obj);
+			gameObjects.push_back(obj);		
 
 		}
 
@@ -122,11 +123,12 @@ namespace LittleEngine
 			ShaderManager::instance()->useProgram(PROGRAM_NAME);
 			for (GameObject* go : gameObjects)
 			{
-				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME));
+				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME), camera->getViewProj());
 			}
+			
 			renderer->clearBuffersPP();
 			ShaderManager::instance()->useProgram(PROGRAM_NAME_PP);
-			renderer->renderFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));
+			renderer->renderFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));			
 		}
 
 		void update(double deltaTime)

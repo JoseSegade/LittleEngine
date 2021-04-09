@@ -6,12 +6,13 @@ namespace LittleEngine
 {
 	struct AttributeVariable
 	{
-		unsigned int id;
+		int			 id;
 		unsigned int count;
 		unsigned int offset;
+		unsigned int stride;
 
-		AttributeVariable()										: id(0),  count(0),     offset(0)	{}
-		AttributeVariable(unsigned int id, unsigned int count)	: id(id), count(count), offset(0)	{};
+		AttributeVariable()													: id(0),  count(0),     offset(0), stride(0)	{}
+		AttributeVariable(int id, unsigned int count, unsigned int stride)	: id(id), count(count), offset(0), stride(stride)	{};
 	};
 }
 

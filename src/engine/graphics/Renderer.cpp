@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-LittleEngine::Renderer::Renderer(): bgColor(glm::vec4(0.f, 0.f, 0.f, 1.f)), fbo(nullptr)
+LittleEngine::Renderer::Renderer(): bgColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.f)), fbo(nullptr)
 {
 }
 
@@ -18,8 +18,8 @@ void LittleEngine::Renderer::renderFBO(ProgramObject* programObject)
 LittleEngine::Renderer* LittleEngine::Renderer::createFBO()
 {
     fbo = new FrameBufferObject();
-    fbo ->generate   ()
-        ->setFrameVAO();
+    fbo->generate()
+       ->setFrameVAO();
     return this;
 }
 
@@ -31,7 +31,6 @@ LittleEngine::Renderer* LittleEngine::Renderer::changeBackgroungColor(glm::vec4 
 
 LittleEngine::Renderer* LittleEngine::Renderer::startRenderConfig()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
     glEnable(GL_DEPTH_TEST);
     glFrontFace(GL_CCW);

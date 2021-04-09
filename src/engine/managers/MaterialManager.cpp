@@ -46,6 +46,7 @@ LittleEngine::MaterialManager* LittleEngine::MaterialManager::loadTexture(const 
 		return this;
 	}
 	textures[name] = new Texture(name);
+	textures[name]->setUniformLocation(textureId);
 	textures[name]->loadFromFile(path);
 	return this;
 }

@@ -131,4 +131,6 @@ void LittleEngine::FrameBufferObject::render(ProgramObject* program)
 		glBindTexture(GL_TEXTURE_2D, positionBufferTextureId);
 		program->setUniform1i(positionTextureLocation, 1);
 	}
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }

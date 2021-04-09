@@ -29,8 +29,8 @@ namespace LittleEngine
 		std::unordered_map<std::string, int>				uniforms;
 		std::unordered_map<unsigned int, Shader*>			shaders;
 
-		void searchForAttributes();
-		void searchForUniforms();
+		void searchForAttributes	();
+		void searchForUniforms		();
 		void searchAndStoreVariables(VariableType type);
 	public:
 		ProgramObject(const char* name);
@@ -40,7 +40,7 @@ namespace LittleEngine
 		ProgramObject*	loadProgram			();
 		ProgramObject*	use					();
 		ProgramObject*	setUniform1i		(unsigned int variableLocation, unsigned int index);
-		ProgramObject*	setUniformMatrix4fv	(unsigned int variableLocation, const float* values, unsigned int count);
+		ProgramObject*	setUniformMatrix4fv	(unsigned int variableLocation, const float* values);
 		int				getVariableId		(const std::string& name, const VariableType& type);		
 	};
 }

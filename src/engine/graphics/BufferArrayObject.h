@@ -15,7 +15,6 @@ namespace LittleEngine
 		std::vector<AttributeVariable*>		attributes;
 		GLenum								renderMode;
 		unsigned int						sizePerElement;
-		unsigned int						stride;
 		bool								normalized;
 
 		void disableAllAttributes();

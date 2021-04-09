@@ -57,14 +57,14 @@ void LittleEngine::Utils::readOBJ(const char* path, Mesh &mesh)
 				switch (counter)
 				{
 				case 0:
-					currentTriangle.addVertexIndex(temp);
-					vertexPositionIndices.push_back(temp);
+					vertexPositionIndices.push_back(temp - 1);
+					currentTriangle.addVertexIndex(vertexPositionIndices.size() - 1);
 					break;
 				case 1:
-					vertexTexcoordIndices.push_back(temp);
+					vertexTexcoordIndices.push_back(temp - 1);
 					break;
 				case 2:
-					vertexNormalIndices.push_back(temp);
+					vertexNormalIndices.push_back(temp - 1);
 					break;
 				default:
 					break;
@@ -98,9 +98,9 @@ void LittleEngine::Utils::readOBJ(const char* path, Mesh &mesh)
 
 	for (size_t i = 0; i < mesh.vertices.size(); ++i)
 	{
-		mesh.vertices[i].position	 = vertexPositions	[vertexPositionIndices[i] - 1];
-		mesh.vertices[i].texCoord	 = vertexTexcoords	[vertexTexcoordIndices[i] - 1];
-		mesh.vertices[i].normal		 = vertexNormals	[vertexNormalIndices[i]	- 1];
+		mesh.vertices[i].position	 = vertexPositions	[vertexPositionIndices[i]];
+		mesh.vertices[i].texCoord	 = vertexTexcoords	[vertexTexcoordIndices[i]];
+		mesh.vertices[i].normal		 = vertexNormals	[vertexNormalIndices[i]];
 		mesh.vertices[i].color		 = glm::vec3(1.f);
 	}
 }

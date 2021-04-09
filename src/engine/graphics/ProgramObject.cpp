@@ -37,14 +37,18 @@ LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform1i(unsigned 
 	return this;
 }
 
-LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniformMatrix4fv(unsigned int variableLocation, const float* values, unsigned int count)
+LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniformMatrix4fv(unsigned int variableLocation, const float* values)
 {
-	glUniformMatrix4fv(variableLocation, )
+	glUniformMatrix4fv(variableLocation, 1, GL_FALSE, values);
 	return this;
 }
 
 int LittleEngine::ProgramObject::getVariableId(const std::string& name, const VariableType& type)
 {
+	if (type == VariableType::ATTRIBUTE ? attributes.count(name) < 1 : uniforms.count(name) < 1)
+	{
+		return -1;
+	}
 	return type == VariableType::ATTRIBUTE ? attributes[name] : uniforms[name];
 }
 
@@ -124,7 +128,7 @@ void LittleEngine::ProgramObject::searchAndStoreVariables(VariableType type)
 		else
 		{
 			glGetActiveUniform(id, i, NAME_LENGHT, &var->length, &var->size, &var->type, var->name);
-			uniforms[var->name] = glGetAttribLocation(id, var->name);
+			uniforms[var->name] = glGetUniformLocation(id, var->name);
 		}
 	}
 }

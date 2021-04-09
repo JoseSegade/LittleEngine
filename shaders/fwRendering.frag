@@ -1,4 +1,4 @@
-#version 430 core
+#version 330 core
 layout (location  = 0) out vec4 outColor;
 layout (location = 1)  out vec4 fragPos;
 
@@ -30,12 +30,12 @@ void main()
 {
 	Ka = texture(colorTex, texCoord).rgb;
 	Kd = texture(colorTex, texCoord).rgb;
-	Ke = texture(emiTex, texCoord).rgb;
+	//Ke = texture(emiTex, texCoord).rgb;
 	Ks = vec3 (1.0);
 
 	N = normalize (norm);
 	
-	outColor = vec4(shade(), 1.0);   
+	outColor = vec4(shade(), 1.0);
 	fragPos = vec4(pos,0.0);
 }
 
@@ -54,7 +54,7 @@ vec3 shade()
 	vec3 specular = Is*Ks*pow(factor,alpha);
 	c += clamp(specular, 0.0, 1.0);
 
-	c+=Ke;
+	//c+=Ke;
 	
 	return c;
 }

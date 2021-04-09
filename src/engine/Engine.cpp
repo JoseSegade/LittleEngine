@@ -9,13 +9,23 @@ LittleEngine::Engine::Engine(const char* name, int width, int height): name(name
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4.3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+    glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+    glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+    glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+
     window = glfwCreateWindow(width, height, name, NULL, NULL);
     if (!window)
     {
         fprintf(stderr, "Failed to open GLFW window\n");
         glfwTerminate();
         std::exit(EXIT_FAILURE);
+
     }
+   
+    glfwMakeContextCurrent(window);
 }
 
 LittleEngine::Engine::~Engine()
@@ -55,7 +65,6 @@ void LittleEngine::Engine::play()
 }
 
 void LittleEngine::Engine::init() { 
-    // TODO: Load Scene
     glfwSetWindowUserPointer(window, this);
     glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {        
         Engine* self = static_cast<Engine*>(glfwGetWindowUserPointer(window));
@@ -67,7 +76,6 @@ void LittleEngine::Engine::init() {
     });
     //glfwSetCursorPosCallback(window, cursorPosFun);
     //glfwSetMouseButtonCallback(window, mouseButtonFun);
-
     glfwMakeContextCurrent(window);
     gladLoadGL();
     glfwSwapInterval(1);
@@ -79,13 +87,16 @@ void LittleEngine::Engine::init() {
     
     resizeWindow(window, width, height);
 
-
     play();
 }
 
 void LittleEngine::Engine::resizeWindow(GLFWwindow* window, int width, int height) 
 {
+    this->width = width;
+    this->height = height;
     scene->resize(width, height);
+    glfwSwapBuffers(window);
+    glfwPollEvents();
 }
 
 void LittleEngine::Engine::key(GLFWwindow* window, int k, int s, int action, int mods)
@@ -106,6 +117,7 @@ void LittleEngine::Engine::key(GLFWwindow* window, int k, int s, int action, int
 
 void LittleEngine::Engine::mainLoop() 
 {
+    glfwGetFramebufferSize(window, &width, &height);
     if (currentState == LittleEngine::EngineState::PLAY) {
         std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
         double elapsed = std::chrono::duration<double>(currentTime - prevTime).count();
@@ -118,9 +130,6 @@ void LittleEngine::Engine::mainLoop()
         }
     }
     scene->render();
-    //TODO:REMOVE
-    glViewport(0, 0, width, height);
-    glClear(GL_COLOR_BUFFER_BIT);
 
     glfwSwapBuffers(window);
     glfwPollEvents();

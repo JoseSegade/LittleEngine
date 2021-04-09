@@ -33,6 +33,7 @@ namespace LittleEngine
 		Texture operator=(Texture const &) = delete;
 
 		inline unsigned int getUniformLocation	() const { return shaderUniformVariableId; }
+		inline void			setUniformLocation	(unsigned int value) { shaderUniformVariableId = value; }
 		Texture*			loadFromFile		(const char* path);
 		Texture*			bind				(unsigned int idTexture);
 		Texture*			unbind				();
