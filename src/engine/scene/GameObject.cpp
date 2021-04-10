@@ -58,7 +58,6 @@ void LittleEngine::GameObject::onRender(ProgramObject* program, ViewProj &viewPr
 	{		
 		for (Component* component : components)
 		{
-			transform->rotation = glm::rotate(transform->rotation, 0.1f, glm::vec3(1.f, 1.f, 0.f));
 			MeshRenderer* meshRenderer = dynamic_cast<MeshRenderer*>(component);
 			if (meshRenderer != nullptr)
 			{

@@ -2,7 +2,7 @@
 
 void LittleEngine::Utils::printWarning(const char* string, const char* file, int line)
 {
-	printf("%s At file: %s, at line: %d\n");
+	printf("%s At file: %s, at line: %d\n", string, file, line);
 }
 
 void LittleEngine::Utils::printMat4(const glm::mat4 mat)

@@ -39,8 +39,10 @@ namespace LittleEngine
 		ProgramObject*	addShader			(Shader* shader);
 		ProgramObject*	loadProgram			();
 		ProgramObject*	use					();
-		ProgramObject*	setUniform1i		(unsigned int variableLocation, unsigned int index);
+		ProgramObject*	setUniform1i		(unsigned int variableLocation, int index);
+		ProgramObject*	setUniform1d		(unsigned int variableLocation, double value);
 		ProgramObject*	setUniformMatrix4fv	(unsigned int variableLocation, const float* values);
+		ProgramObject*	setUniform3fv		(unsigned int variableLocation, const float* values);
 		int				getVariableId		(const std::string& name, const VariableType& type);		
 	};
 }

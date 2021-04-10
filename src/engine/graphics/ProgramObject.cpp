@@ -31,15 +31,27 @@ LittleEngine::ProgramObject* LittleEngine::ProgramObject::use()
 	return this;
 }
 
-LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform1i(unsigned int variableLocation, unsigned int index)
+LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform1i(unsigned int variableLocation, int index)
 {
 	glUniform1i(variableLocation, index);
+	return this;
+}
+
+LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform1d(unsigned int variableLocation, double value)
+{
+	glUniform1d(variableLocation, value);
 	return this;
 }
 
 LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniformMatrix4fv(unsigned int variableLocation, const float* values)
 {
 	glUniformMatrix4fv(variableLocation, 1, GL_FALSE, values);
+	return this;
+}
+
+LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform3fv(unsigned int variableLocation, const float* values)
+{
+	glUniform3fv(variableLocation, 1, values);
 	return this;
 }
 

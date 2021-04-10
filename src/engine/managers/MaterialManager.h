@@ -16,7 +16,6 @@ namespace LittleEngine
 	private:
 		std::unordered_map<std::string, Material*> materials;
 		std::unordered_map<std::string, Texture*> textures;
-
 	public:
 		// Material relative
 		MaterialManager*	createMaterial			(const char* name);

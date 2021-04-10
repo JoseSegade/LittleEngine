@@ -23,6 +23,7 @@ vec3 Ia = vec3 (0.3);
 vec3 Id = vec3 (1.0);
 vec3 Is = vec3 (0.7);
 vec3 lpos = vec3 (0.0); 
+float lpower = 5.0;
 
 vec3 shade();
 
@@ -40,18 +41,18 @@ void main()
 }
 
 vec3 shade()
-{
+{	
 	vec3 c = vec3(0.0);
 	c = Ia * Ka;
 
 	vec3 L = normalize (lpos - pos);
-	vec3 diffuse = Id * Kd * dot (L,N);
+	vec3 diffuse = Id * Kd * dot (L,N) * (lpower / length(lpos - pos));
 	c += clamp(diffuse, 0.0, 1.0);
 	
 	vec3 V = normalize (-pos);
 	vec3 R = normalize (reflect (-L,N));
-	float factor = max (dot (R,V), 0.01);
-	vec3 specular = Is*Ks*pow(factor,alpha);
+	float factor = max (dot (R,V), 0.5);
+	vec3 specular = Is*Ks*pow(factor,alpha) * (lpower / length(lpos - pos));
 	c += clamp(specular, 0.0, 1.0);
 
 	//c+=Ke;

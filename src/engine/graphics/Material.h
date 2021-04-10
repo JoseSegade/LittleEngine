@@ -17,6 +17,7 @@ namespace LittleEngine
 	private:
 		std::string name;
 
+		std::unordered_map<std::string, glm::vec3>	  properties;
 		std::unordered_map<std::string, Texture*> textures;
 
 	public: 
@@ -30,6 +31,10 @@ namespace LittleEngine
 		Texture*	changeTexture			(const char* name, Texture* texture);
 		Texture*	getTexture				(const char* name);
 		Texture*	removeTexture			(const char* name);
+		Material*	addProperty				(const char* name, glm::vec3 value);
+		glm::vec3	changeProperty			(const char* name, glm::vec3 value);
+		glm::vec3	getProperty				(const char* name);
+		glm::vec3	removeProperty			(const char* name);
 		Material*	bindMaterialToProgram	(ProgramObject* program);
 	};
 }

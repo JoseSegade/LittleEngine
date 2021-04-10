@@ -82,7 +82,7 @@ void LittleEngine::Engine::init() {
 
     glfwGetFramebufferSize(window, &width, &height);
 
-    scene = new Scene1();
+    scene = new Scene4();
     scene->load();
     
     resizeWindow(window, width, height);

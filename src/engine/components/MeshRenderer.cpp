@@ -110,18 +110,24 @@ void LittleEngine::MeshRenderer::onRender(ProgramObject* program, ViewProj &view
 {
 	material->bindMaterialToProgram(program);
 
-	unsigned int normalLocation			= program->getVariableId("normal", LittleEngine::VariableType::UNIFORM);
-	unsigned int modelViewLocation		= program->getVariableId("modelView", LittleEngine::VariableType::UNIFORM);
-	unsigned int modelViewProjLocation	= program->getVariableId("modelViewProj", LittleEngine::VariableType::UNIFORM);
+	int normalLocation			= program->getVariableId("normal", LittleEngine::VariableType::UNIFORM);
+	int modelViewLocation		= program->getVariableId("modelView", LittleEngine::VariableType::UNIFORM);
+	int modelViewProjLocation	= program->getVariableId("modelViewProj", LittleEngine::VariableType::UNIFORM);
+	int projLocation			= program->getVariableId("model", LittleEngine::VariableType::UNIFORM);
+	int viewLocation			= program->getVariableId("view", LittleEngine::VariableType::UNIFORM);
+	int modelLocation			= program->getVariableId("proj", LittleEngine::VariableType::UNIFORM);
 
 	glm::mat4 model			= gameObject->transform->GetTransformationMatrix();
 	glm::mat4 modelView		= viewProj.view * model;
 	glm::mat4 normal		= glm::transpose(glm::inverse(modelView));
 	glm::mat4 modelViewProj = viewProj.proj * modelView;	
 
-	program->setUniformMatrix4fv(normalLocation,		&normal[0][0]);
-	program->setUniformMatrix4fv(modelViewLocation,		&modelView[0][0]);
-	program->setUniformMatrix4fv(modelViewProjLocation, &modelViewProj[0][0]);
+	if (normalLocation > -1)		program->setUniformMatrix4fv(normalLocation		  ,	&normal[0][0]);
+	if (modelViewLocation > -1)		program->setUniformMatrix4fv(modelViewLocation    ,	&modelView[0][0]);
+	if (modelViewProjLocation > -1)	program->setUniformMatrix4fv(modelViewProjLocation, &modelViewProj[0][0]);
+	if (projLocation > -1)			program->setUniformMatrix4fv(projLocation		  , &viewProj.proj[0][0]);
+	if (viewLocation > -1)			program->setUniformMatrix4fv(viewLocation		  , &viewProj.view[0][0]);
+	if (modelLocation > -1)			program->setUniformMatrix4fv(modelLocation        , &model[0][0]);
 
 	vao->bind();
 	indexBuffer->render();

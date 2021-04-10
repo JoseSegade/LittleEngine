@@ -69,3 +69,24 @@ LittleEngine::Renderer* LittleEngine::Renderer::resize(int width, int height)
     fbo->resize(width, height);
     return this;
 }
+
+LittleEngine::Renderer* LittleEngine::Renderer::uploadTimeToProgram(ProgramObject* program, double deltaTime)
+{
+    int timeLocation = program->getVariableId("inTime", VariableType::UNIFORM);
+    if (timeLocation > -1)
+    {
+        program->setUniform1d(timeLocation, deltaTime);
+    }
+    return this;
+}
+
+LittleEngine::Renderer* LittleEngine::Renderer::uploadResolutionToProgram(ProgramObject* program, unsigned int width, unsigned int height)
+{
+    int resolutionLocation = program->getVariableId("inResolution", VariableType::UNIFORM);
+    if (resolutionLocation > -1)
+    {
+        const float vector[] = { width, height, 1.f };
+        program->setUniform3fv(resolutionLocation, &vector[0]);
+;    }
+    return nullptr;
+}

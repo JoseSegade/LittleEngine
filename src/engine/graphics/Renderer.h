@@ -26,8 +26,8 @@ namespace LittleEngine
 		Renderer*	clearBuffersFw							();
 		Renderer*	clearBuffersPP							();
 		Renderer*	resize									(int width, int height);
-		Renderer*	uploadTimeToProgram						(ProgramObject* program);
-		Renderer*	uploadResolutionToProgram				(ProgramObject* program);
+		Renderer*	uploadTimeToProgram						(ProgramObject* program, double deltaTime);
+		Renderer*	uploadResolutionToProgram				(ProgramObject* program, unsigned int widht, unsigned int height);
 	};
 }
 

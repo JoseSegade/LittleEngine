@@ -5,14 +5,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #define GLFW_INCLUDE_NONE
-#define MS_PER_UPDATE 1000./60.
+#define MS_PER_UPDATE 0.032
 
 #include <string>
 #include <chrono>
 #include <iostream>
 #include "engine/managers/InputManager.h"
 #include "engine/scene/IScene.h"
-#include "engine/scene/scenes/Scene1.cpp"
+#include "engine/scene/scenes/Scene4.hpp"
 
 namespace LittleEngine 
 {
