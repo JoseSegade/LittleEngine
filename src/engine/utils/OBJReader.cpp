@@ -19,7 +19,7 @@ void LittleEngine::Utils::readOBJ(const char* path, Mesh &mesh)
 		throw "Error: Could not open file";
 	}
 
-	std::string line = "";
+	std::string line = " ";
 	std::string prefix = "";
 
 
@@ -51,7 +51,13 @@ void LittleEngine::Utils::readOBJ(const char* path, Mesh &mesh)
 		{
 			GLint temp = 0;
 			int counter = 0;
+			int sizeFace = 0;
+			std::string segment;
+			std::vector < std::string> segments;
+
 			Triangle currentTriangle = Triangle();
+			Quad     currentQuad     = Quad();
+
 			while (ss >> temp)
 			{
 				switch (counter)
@@ -59,6 +65,7 @@ void LittleEngine::Utils::readOBJ(const char* path, Mesh &mesh)
 				case 0:
 					vertexPositionIndices.push_back(temp - 1);
 					currentTriangle.addVertexIndex(vertexPositionIndices.size() - 1);
+					currentQuad.addVertexIndex(vertexPositionIndices.size() - 1);
 					break;
 				case 1:
 					vertexTexcoordIndices.push_back(temp - 1);
@@ -78,15 +85,16 @@ void LittleEngine::Utils::readOBJ(const char* path, Mesh &mesh)
 				else if (ss.peek() == ' ')
 				{
 					++counter;
+					++sizeFace;
 					ss.ignore(1, ' ');
 				}
-
+				
 				if (counter > 2)
 				{
 					counter = 0;
 				}
 			}
-			mesh.triangles.push_back(currentTriangle);
+			sizeFace == 3 ? mesh.quads.push_back(currentQuad) : mesh.triangles.push_back(currentTriangle);
 		}
 		else
 		{

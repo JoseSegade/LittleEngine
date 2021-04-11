@@ -4,6 +4,8 @@ layout(triangles) in;
 layout(line_strip, max_vertices = 8) out;
 
 uniform mat4 modelViewProj;
+uniform vec3 vertexNormalColor;
+uniform vec3 faceNormalColor;
 uniform float normalSize;
 
 in vec3 norm[];
@@ -15,10 +17,10 @@ void main()
 	for(int i = 0; i < gl_in.length(); ++i)
 	{
 		gl_Position = modelViewProj * gl_in[i].gl_Position;
-		color = vec4(1.0, 1.0, 0.0, 1.0);
+		color = vec4(vertexNormalColor, 1.0);
 		EmitVertex();
 		gl_Position = modelViewProj * (gl_in[i].gl_Position + vec4(norm[i] * normalSize, 0.0));
-		color = vec4(1.0, 1.0, 0.0, 1.0);
+		color = vec4(vertexNormalColor, 1.0);
 		EmitVertex();
 		EndPrimitive();
 	}
@@ -35,11 +37,11 @@ void main()
 	vec4 center = vec4((a + b + c) / 3.0, 1.0);
 
 	gl_Position = modelViewProj * center;
-	color = vec4(1, 0, 0, 1);
+	color = vec4(faceNormalColor, 1);
 	EmitVertex();
 
 	gl_Position = modelViewProj * (center + normalTri * normalSize);
-	color = vec4(1, 0, 0, 1);
+	color = vec4(faceNormalColor, 1);
 	EmitVertex();
 
 	EndPrimitive();

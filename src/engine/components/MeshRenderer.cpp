@@ -83,15 +83,32 @@ void LittleEngine::MeshRenderer::initializeVAOData(ProgramObject* program)
 	std::vector<unsigned int> triangleValues;
 
 	// Number of triangle indices: 3;
-	triangleValues.reserve(mesh->triangles.size() * 3);
-	for (size_t i = 0; i < mesh->triangles.size(); ++i)
+	if (mesh->triangles.size() > 0)
 	{
-		triangleValues.push_back(mesh->triangles[i].a);
-		triangleValues.push_back(mesh->triangles[i].b);
-		triangleValues.push_back(mesh->triangles[i].c);
-	}
+		triangleValues.reserve(mesh->triangles.size() * 3);
+		for (size_t i = 0; i < mesh->triangles.size(); ++i)
+		{
+			triangleValues.push_back(mesh->triangles[i].a);
+			triangleValues.push_back(mesh->triangles[i].b);
+			triangleValues.push_back(mesh->triangles[i].c);
+		}
 
-	indexBuffer->addDataToShader(&triangleValues[0], triangleValues.size());
+		indexBuffer->addDataToShader(&triangleValues[0], triangleValues.size());
+	}
+	else if (mesh->quads.size() > 0)
+	{
+		triangleValues.reserve(mesh->quads.size() * 4);
+		for (size_t i = 0; i < mesh->quads.size(); ++i)
+		{
+			triangleValues.push_back(mesh->quads[i].a);
+			triangleValues.push_back(mesh->quads[i].b);
+			triangleValues.push_back(mesh->quads[i].c);
+			triangleValues.push_back(mesh->quads[i].d);
+		}
+
+		indexBuffer->addDataToShader(&triangleValues[0], triangleValues.size());
+	}
+	
 
 	vertexValues.clear();
 	attributeValues.clear();
@@ -113,8 +130,6 @@ void LittleEngine::MeshRenderer::onRender(ProgramObject* program, ViewProj &view
 	int normalLocation			= program->getVariableId("normal", LittleEngine::VariableType::UNIFORM);
 	int modelViewLocation		= program->getVariableId("modelView", LittleEngine::VariableType::UNIFORM);
 	int modelViewProjLocation	= program->getVariableId("modelViewProj", LittleEngine::VariableType::UNIFORM);
-	int projLocation			= program->getVariableId("model", LittleEngine::VariableType::UNIFORM);
-	int viewLocation			= program->getVariableId("view", LittleEngine::VariableType::UNIFORM);
 	int modelLocation			= program->getVariableId("proj", LittleEngine::VariableType::UNIFORM);
 	int viewProjLocation		= program->getVariableId("viewProj", LittleEngine::VariableType::UNIFORM);
 
@@ -127,11 +142,9 @@ void LittleEngine::MeshRenderer::onRender(ProgramObject* program, ViewProj &view
 	if (normalLocation > -1)		program->setUniformMatrix4fv(normalLocation		  ,	&normal[0][0]);
 	if (modelViewLocation > -1)		program->setUniformMatrix4fv(modelViewLocation    ,	&modelView[0][0]);
 	if (modelViewProjLocation > -1)	program->setUniformMatrix4fv(modelViewProjLocation, &modelViewProj[0][0]);
-	if (projLocation > -1)			program->setUniformMatrix4fv(projLocation		  , &viewProj.proj[0][0]);
-	if (viewLocation > -1)			program->setUniformMatrix4fv(viewLocation		  , &viewProj.view[0][0]);
 	if (modelLocation > -1)			program->setUniformMatrix4fv(modelLocation		  , &model[0][0]);
 	if (viewProjLocation > -1)		program->setUniformMatrix4fv(viewProjLocation     , &viewProjMat[0][0]);
 
 	vao->bind();
-	indexBuffer->render();
+	indexBuffer->render(program->getRenderMode());
 }

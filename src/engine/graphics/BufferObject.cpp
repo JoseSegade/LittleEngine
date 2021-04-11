@@ -21,7 +21,7 @@ unsigned int LittleEngine::BufferObject::calculateDataSize()
 }
 
 LittleEngine::BufferObject::BufferObject(GLenum dataType, GLenum bufferType, GLenum renderMode) :
-	dataType(dataType), bufferType(bufferType), renderMode(renderMode), id(0), size(0)
+	dataType(dataType), bufferType(bufferType), id(0), size(0)
 {
 }
 
@@ -42,9 +42,26 @@ LittleEngine::BufferObject* LittleEngine::BufferObject::unbind()
 	return this;
 }
 
-LittleEngine::BufferObject* LittleEngine::BufferObject::render()
+LittleEngine::BufferObject* LittleEngine::BufferObject::render(RenderMode renderMode)
 {
-	glDrawElements(renderMode, size, GL_UNSIGNED_INT, (void*)0);
+	if (renderMode == RenderMode::TRIANGLES)
+	{
+		glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, (void*)0);
+	}
+	else if (renderMode == RenderMode::QUADS)
+	{
+		glPatchParameteri(GL_PATCH_VERTICES, 4);
+		glDrawElements(GL_PATCHES, size, GL_UNSIGNED_INT, (void*)0);
+	}
+	else if (renderMode == RenderMode::TRIANGLES_PATCH)
+	{
+		glPatchParameteri(GL_PATCH_VERTICES, 3);
+		glDrawElements(GL_PATCHES, size, GL_UNSIGNED_INT, (void*)0);
+	}
+	else
+	{
+		// Nothing to do here;
+	}
 	return this;
 }
 

@@ -12,7 +12,14 @@
 #include <iostream>
 #include "engine/managers/InputManager.h"
 #include "engine/scene/IScene.h"
+#include "engine/scene/scenes/Scene1.hpp"
+#include "engine/scene/scenes/Scene2.hpp"
+#include "engine/scene/scenes/Scene3.hpp"
 #include "engine/scene/scenes/Scene4.hpp"
+#include "engine/scene/scenes/Scene5.hpp"
+#include "engine/scene/scenes/Scene6.hpp"
+#include "engine/scene/scenes/Scene7.hpp"
+#include "engine/scene/scenes/Scene9.hpp"
 
 namespace LittleEngine 
 {

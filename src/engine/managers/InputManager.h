@@ -3,11 +3,12 @@
 #define INOUTMANAGER_H_
 
 #include "ISingleton.h"
+#include "IPublisher.h"
 
 #include <GLFW\glfw3.h>
 namespace LittleEngine 
 {
-	class InputManager: public ISingleton<InputManager> 
+	class InputManager: public ISingleton<InputManager>, public IPublisher
 	{
 	public:
 		void key(GLFWwindow* window, int k, int s, int action, int mods);

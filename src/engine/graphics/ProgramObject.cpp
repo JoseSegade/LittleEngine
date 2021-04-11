@@ -2,7 +2,7 @@
 
 #pragma region PUBLIC
 
-LittleEngine::ProgramObject::ProgramObject(const char* name): name(name), id(0), attributes(), uniforms(), shaders(), state(ProgramState::UNLOADED)
+LittleEngine::ProgramObject::ProgramObject(const char* name, RenderMode renderMode): name(name), renderMode(renderMode), id(0), attributes(), uniforms(), shaders(), state(ProgramState::UNLOADED)
 {
 	
 }

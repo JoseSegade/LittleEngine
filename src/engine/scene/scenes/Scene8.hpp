@@ -1,3 +1,4 @@
+#include <glm/glm.hpp>
 #include "engine/scene/IScene.h"
 #include "engine/graphics/Renderer.h"
 #include "engine/managers/ShaderManager.h"
@@ -12,25 +13,35 @@
 
 namespace LittleEngine
 {
-	class Scene2 : public IScene 
+	class Scene8 : public IScene 
 	{
 	private:
 		const char* OBJ_PATH				= "../objs/utah_teapot.obj";
-		const char* TEX01_PATH				= "../textures/grey.png";
+		const char* TEX01_PATH				= "../textures/earth.png";
 
 		const char* PROGRAM_NAME			= "Program1";
-		const char* VERTEX_SHADER_NAME		= "VertexShader";
-		const char* FRAGMENT_SHADER_NAME	= "FragmentShader";
-		const char* VERTEX_SHADER_PATH		= "../shaders/fwRendering.vert";
-		const char* FRAGMENT_SHADER_PATH	= "../shaders/fwRendering.frag";
+		const char* VERT_SHADER_NAME		= "VertexShaderDisplacement";
+		const char* TESC_SHADER_NAME		= "TescShaderDisplacement";
+		const char* TESE_SHADER_NAME		= "TeseShaderDisplacement";
+		const char* GEOM_SHADER_NAME		= "GeomShaderDisplacement";
+		const char* FRAG_SHADER_NAME		= "FragmentShaderDisplacement";
+		const char* VERT_SHADER_PATH		= "../shaders/displacement_t.vert";
+		const char* TESC_SHADER_PATH		= "../shaders/displacement_t.tesc";
+		const char* TESE_SHADER_PATH		= "../shaders/displacement_t.tese";
+		const char* GEOM_SHADER_PATH		= "../shaders/displacement_t.geom";
+		const char* FRAG_SHADER_PATH		= "../shaders/displacement_t.frag";
 
 		const char* PROGRAM_NAME_WF			= "ProgramWireframe";
-		const char* VERTEX_SHADER_NAME_WF	= "VertexShaderWireframe";
+		const char* VERT_SHADER_NAME_WF		= "VertexShaderWireframe";
+		const char* TESC_SHADER_NAME_WF     = "TescShaderWireFrame";
+		const char* TESE_SHADER_NAME_WF     = "TeseShaderWireFrame";
 		const char* GEOM_SHADER_NAME_WF		= "GeomShaderWireframe";
-		const char* FRAGMENT_SHADER_NAME_WF = "FragmentShaderWireframe";
-		const char* VERTEX_SHADER_PATH_WF	= "../shaders/geomWireframe.vert";
-		const char* GEOM_SHADER_PATH_WF		= "../shaders/geomWireframe.geom";
-		const char* FRAGMENT_SHADER_PATH_WF	= "../shaders/geomWireframe.frag";
+		const char* FRAG_SHADER_NAME_WF		= "FragmentShaderWireframe";
+		const char* VERT_SHADER_PATH_WF		= "../shaders/quadSubDiv.vert";
+		const char* TESC_SHADER_PATH_WF     = "../shaders/triSubDiv.tesc";
+		const char* TESE_SHADER_PATH_WF     = "../shaders/triSubDiv.tese";
+		const char* GEOM_SHADER_PATH_WF		= "../shaders/quadSubDiv.geom";
+		const char* FRAG_SHADER_PATH_WF		= "../shaders/quadSubDiv.frag";
 
 		const char* PROGRAM_NAME_PP			= "ProgramPP";
 		const char* VERTEX_SHADER_NAME_PP	= "VertexShaderPP";
@@ -48,21 +59,18 @@ namespace LittleEngine
 			//	TODO: Make object for programs config
 
 			ShaderManager::instance()
-				->createProgram	(PROGRAM_NAME)
-				->createShader	(VERTEX_SHADER_NAME,   VERTEX_SHADER_PATH,   GL_VERTEX_SHADER)
-				->assignShader	(VERTEX_SHADER_NAME,   PROGRAM_NAME)
-				->createShader	(FRAGMENT_SHADER_NAME, FRAGMENT_SHADER_PATH, GL_FRAGMENT_SHADER)
-				->assignShader	(FRAGMENT_SHADER_NAME, PROGRAM_NAME)
-				->loadProgram	(PROGRAM_NAME)
-
-				->createProgram(PROGRAM_NAME_WF)
-				->createShader(VERTEX_SHADER_NAME_WF, VERTEX_SHADER_PATH_WF, GL_VERTEX_SHADER)
-				->assignShader(VERTEX_SHADER_NAME_WF, PROGRAM_NAME_WF)
-				->createShader(GEOM_SHADER_NAME_WF, GEOM_SHADER_PATH_WF, GL_GEOMETRY_SHADER)
-				->assignShader(GEOM_SHADER_NAME_WF, PROGRAM_NAME_WF)
-				->createShader(FRAGMENT_SHADER_NAME_WF, FRAGMENT_SHADER_PATH_WF, GL_FRAGMENT_SHADER)
-				->assignShader(FRAGMENT_SHADER_NAME_WF, PROGRAM_NAME_WF)
-				->loadProgram(PROGRAM_NAME_WF)
+				->createProgram(PROGRAM_NAME, RenderMode::TRIANGLES_PATCH)
+				->createShader(VERT_SHADER_NAME, VERT_SHADER_PATH, GL_VERTEX_SHADER)
+				->createShader(TESC_SHADER_NAME, TESC_SHADER_PATH, GL_TESS_CONTROL_SHADER)
+				->createShader(TESE_SHADER_NAME, TESE_SHADER_PATH, GL_TESS_EVALUATION_SHADER)
+				->createShader(GEOM_SHADER_NAME, GEOM_SHADER_PATH, GL_GEOMETRY_SHADER)
+				->createShader(FRAG_SHADER_NAME, FRAG_SHADER_PATH, GL_FRAGMENT_SHADER)
+				->assignShader(VERT_SHADER_NAME, PROGRAM_NAME)
+				->assignShader(TESC_SHADER_NAME, PROGRAM_NAME)
+				->assignShader(TESE_SHADER_NAME, PROGRAM_NAME)
+				->assignShader(GEOM_SHADER_NAME, PROGRAM_NAME)
+				->assignShader(FRAG_SHADER_NAME, PROGRAM_NAME)
+				->loadProgram(PROGRAM_NAME)
 
 				//	PostProcessing Program
 				->createProgram(PROGRAM_NAME_PP)
@@ -103,6 +111,7 @@ namespace LittleEngine
 
 			obj->addComponent(meshRendererOBJ);
 			obj->addComponent(rotateComponent);
+			
 
 			gameObjects.push_back(obj);		
 
@@ -110,16 +119,20 @@ namespace LittleEngine
 
 		void uploadUniformsToProgram(ProgramObject* program)
 		{
-			renderer->setWireframeWidth(2.5f);
-			float zOffset = 0.005f;
-			glm::vec3 wireColor = glm::vec3(1.f, 1.f, 0.f);
-			renderer->uploadUniformVariable(program, "zOffset", &zOffset);
+			renderer->setWireframeWidth(2.0);
+			float zOffset = 0.03f;
+			float divs = 5.0f;
+			float intensity = 0.5f;
+			glm::vec3 wireColor = glm::vec3(1.0, 1.0, 0.0);
+			renderer->uploadUniformVariable(program, "zOffset"  , &zOffset);
 			renderer->uploadUniformVariable(program, "wireColor", &wireColor);
+			renderer->uploadUniformVariable(program, "divs", &divs);
+			renderer->uploadUniformVariable(program, "intensity", &intensity);
 		}
 
 	public:
 
-		~Scene2() {
+		~Scene8() {
 			for (GameObject* gameObject : gameObjects)
 			{
 				delete gameObject;
@@ -157,15 +170,10 @@ namespace LittleEngine
 		{
 			renderer->clearBuffersFw();
 			ShaderManager::instance()->useProgram(PROGRAM_NAME);
+			uploadUniformsToProgram(ShaderManager::instance()->getProgram(PROGRAM_NAME));
 			for (GameObject* go : gameObjects)
 			{
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME), camera->getViewProj());
-			}
-			ShaderManager::instance()->useProgram(PROGRAM_NAME_WF);
-			uploadUniformsToProgram(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF));
-			for (GameObject* go : gameObjects)
-			{
-				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF), camera->getViewProj());
 			}
 			renderer->clearBuffersPP();
 			ShaderManager::instance()->useProgram(PROGRAM_NAME_PP);

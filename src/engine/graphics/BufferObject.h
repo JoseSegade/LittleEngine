@@ -3,6 +3,7 @@
 #define BUFFEROBJECT_H_
 
 #include <glad/glad.h>
+#include "engine/graphics/ProgramObject.h"
 
 namespace LittleEngine 
 {
@@ -12,7 +13,6 @@ namespace LittleEngine
 		unsigned int	id;
 		GLenum			bufferType;
 		GLenum			dataType;
-		GLenum			renderMode;
 		unsigned int	size;
 
 		unsigned int calculateDataSize();
@@ -25,7 +25,7 @@ namespace LittleEngine
 
 		virtual BufferObject*	bind			();
 		virtual BufferObject*	unbind			();
-		virtual BufferObject*	render			();
+		virtual BufferObject*	render			(LittleEngine::RenderMode renderMode = LittleEngine::RenderMode::TRIANGLES);
 
 		virtual BufferObject*	addDataToShader	(const void* data, int size);
 	};

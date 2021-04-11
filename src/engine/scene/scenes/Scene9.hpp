@@ -1,8 +1,11 @@
+#include <glm/glm.hpp>
+#include <functional>
 #include "engine/scene/IScene.h"
 #include "engine/graphics/Renderer.h"
 #include "engine/managers/ShaderManager.h"
 #include "engine/managers/ObjectManager.h"
 #include "engine/managers/MaterialManager.h"
+#include "engine/managers/InputManager.h"
 #include "engine/scene/GameObject.h"
 #include "engine/scene/Camera.h"
 #include "engine/scene/Light.h"
@@ -12,57 +15,52 @@
 
 namespace LittleEngine
 {
-	class Scene2 : public IScene 
+	class Scene9 : public IScene
 	{
 	private:
-		const char* OBJ_PATH				= "../objs/utah_teapot.obj";
-		const char* TEX01_PATH				= "../textures/grey.png";
+		const char* OBJ_PATH = "../objs/utah_teapot.obj";
+		const char* TEX01_PATH = "../textures/earth.png";
 
-		const char* PROGRAM_NAME			= "Program1";
-		const char* VERTEX_SHADER_NAME		= "VertexShader";
-		const char* FRAGMENT_SHADER_NAME	= "FragmentShader";
-		const char* VERTEX_SHADER_PATH		= "../shaders/fwRendering.vert";
-		const char* FRAGMENT_SHADER_PATH	= "../shaders/fwRendering.frag";
+		const char* PROGRAM_NAME = "Program1";
+		const char* VERT_SHADER_NAME = "VertexShaderDisplacement";
+		const char* TESC_SHADER_NAME = "TescShaderDisplacement";
+		const char* TESE_SHADER_NAME = "TeseShaderDisplacement";
+		const char* GEOM_SHADER_NAME = "GeomShaderDisplacement";
+		const char* FRAG_SHADER_NAME = "FragmentShaderDisplacement";
+		const char* VERT_SHADER_PATH = "../shaders/adaptativeGeom.vert";
+		const char* TESC_SHADER_PATH = "../shaders/adaptativeGeom.tesc";
+		const char* TESE_SHADER_PATH = "../shaders/adaptativeGeom.tese";
+		const char* GEOM_SHADER_PATH = "../shaders/adaptativeGeom.geom";
+		const char* FRAG_SHADER_PATH = "../shaders/adaptativeGeom.frag";
 
-		const char* PROGRAM_NAME_WF			= "ProgramWireframe";
-		const char* VERTEX_SHADER_NAME_WF	= "VertexShaderWireframe";
-		const char* GEOM_SHADER_NAME_WF		= "GeomShaderWireframe";
-		const char* FRAGMENT_SHADER_NAME_WF = "FragmentShaderWireframe";
-		const char* VERTEX_SHADER_PATH_WF	= "../shaders/geomWireframe.vert";
-		const char* GEOM_SHADER_PATH_WF		= "../shaders/geomWireframe.geom";
-		const char* FRAGMENT_SHADER_PATH_WF	= "../shaders/geomWireframe.frag";
-
-		const char* PROGRAM_NAME_PP			= "ProgramPP";
-		const char* VERTEX_SHADER_NAME_PP	= "VertexShaderPP";
-		const char* FRAGMENT_SHADER_NAME_PP	= "FragmentShaderPP";
-		const char* VERTEX_SHADER_PATH_PP	= "../shaders/postProcessing.vert";
-		const char* FRAGMENT_SHADER_PATH_PP	= "../shaders/postProcessing.frag";
+		const char* PROGRAM_NAME_PP = "ProgramPP";
+		const char* VERTEX_SHADER_NAME_PP = "VertexShaderPP";
+		const char* FRAGMENT_SHADER_NAME_PP = "FragmentShaderPP";
+		const char* VERTEX_SHADER_PATH_PP = "../shaders/postProcessing.vert";
+		const char* FRAGMENT_SHADER_PATH_PP = "../shaders/postProcessing.frag";
 
 		Renderer* renderer;
 		std::vector<GameObject*> gameObjects;
 		std::vector<Light*> lights;
 		Camera* camera;
 
-		void createPrograms() 
+		void createPrograms()
 		{
 			//	TODO: Make object for programs config
 
 			ShaderManager::instance()
-				->createProgram	(PROGRAM_NAME)
-				->createShader	(VERTEX_SHADER_NAME,   VERTEX_SHADER_PATH,   GL_VERTEX_SHADER)
-				->assignShader	(VERTEX_SHADER_NAME,   PROGRAM_NAME)
-				->createShader	(FRAGMENT_SHADER_NAME, FRAGMENT_SHADER_PATH, GL_FRAGMENT_SHADER)
-				->assignShader	(FRAGMENT_SHADER_NAME, PROGRAM_NAME)
-				->loadProgram	(PROGRAM_NAME)
-
-				->createProgram(PROGRAM_NAME_WF)
-				->createShader(VERTEX_SHADER_NAME_WF, VERTEX_SHADER_PATH_WF, GL_VERTEX_SHADER)
-				->assignShader(VERTEX_SHADER_NAME_WF, PROGRAM_NAME_WF)
-				->createShader(GEOM_SHADER_NAME_WF, GEOM_SHADER_PATH_WF, GL_GEOMETRY_SHADER)
-				->assignShader(GEOM_SHADER_NAME_WF, PROGRAM_NAME_WF)
-				->createShader(FRAGMENT_SHADER_NAME_WF, FRAGMENT_SHADER_PATH_WF, GL_FRAGMENT_SHADER)
-				->assignShader(FRAGMENT_SHADER_NAME_WF, PROGRAM_NAME_WF)
-				->loadProgram(PROGRAM_NAME_WF)
+				->createProgram(PROGRAM_NAME, RenderMode::TRIANGLES_PATCH)
+				->createShader(VERT_SHADER_NAME, VERT_SHADER_PATH, GL_VERTEX_SHADER)
+				->createShader(TESC_SHADER_NAME, TESC_SHADER_PATH, GL_TESS_CONTROL_SHADER)
+				->createShader(TESE_SHADER_NAME, TESE_SHADER_PATH, GL_TESS_EVALUATION_SHADER)
+				->createShader(GEOM_SHADER_NAME, GEOM_SHADER_PATH, GL_GEOMETRY_SHADER)
+				->createShader(FRAG_SHADER_NAME, FRAG_SHADER_PATH, GL_FRAGMENT_SHADER)
+				->assignShader(VERT_SHADER_NAME, PROGRAM_NAME)
+				->assignShader(TESC_SHADER_NAME, PROGRAM_NAME)
+				->assignShader(TESE_SHADER_NAME, PROGRAM_NAME)
+				->assignShader(GEOM_SHADER_NAME, PROGRAM_NAME)
+				->assignShader(FRAG_SHADER_NAME, PROGRAM_NAME)
+				->loadProgram(PROGRAM_NAME)
 
 				//	PostProcessing Program
 				->createProgram(PROGRAM_NAME_PP)
@@ -83,19 +81,19 @@ namespace LittleEngine
 
 			gameObjects.push_back(camera);
 
-			GameObject*		obj				 = new GameObject	  (1, "OBJ_TEST");
-			MeshRenderer*	meshRendererOBJ	 = new MeshRenderer	  ();				
+			GameObject* obj = new GameObject(1, "OBJ_TEST");
+			MeshRenderer* meshRendererOBJ = new MeshRenderer();
 			RotateComponent* rotateComponent = new RotateComponent();
 
 			MaterialManager::instance()
 				->createMaterial("MAT01")
 				->loadTexture(
 					"TEX01",
-					TEX01_PATH, 
+					TEX01_PATH,
 					ShaderManager::instance()
-						->getProgram(PROGRAM_NAME)
-						->getVariableId("colorTex", LittleEngine::VariableType::UNIFORM))
-				->asignTextureToMaterial	("TEX01", "MAT01");
+					->getProgram(PROGRAM_NAME)
+					->getVariableId("colorTex", LittleEngine::VariableType::UNIFORM))
+				->asignTextureToMaterial("TEX01", "MAT01");
 
 			meshRendererOBJ->setMesh(ObjectManager::instance()->loadMesh("Mesh", OBJ_PATH));
 			meshRendererOBJ->initializeVAOData(ShaderManager::instance()->getProgram(PROGRAM_NAME));
@@ -104,22 +102,27 @@ namespace LittleEngine
 			obj->addComponent(meshRendererOBJ);
 			obj->addComponent(rotateComponent);
 
-			gameObjects.push_back(obj);		
+
+			gameObjects.push_back(obj);
 
 		}
 
 		void uploadUniformsToProgram(ProgramObject* program)
 		{
-			renderer->setWireframeWidth(2.5f);
-			float zOffset = 0.005f;
-			glm::vec3 wireColor = glm::vec3(1.f, 1.f, 0.f);
+			renderer->setWireframeWidth(2.0);
+			float zOffset = 0.03f;
+			float jump = 7.0f;
+			float maxDivs = 7.0f;
+			glm::vec3 wireColor = glm::vec3(1.0, 1.0, 0.0);
 			renderer->uploadUniformVariable(program, "zOffset", &zOffset);
 			renderer->uploadUniformVariable(program, "wireColor", &wireColor);
+			renderer->uploadUniformVariable(program, "jump", &jump);
+			renderer->uploadUniformVariable(program, "maxDivs", &maxDivs);
 		}
 
 	public:
 
-		~Scene2() {
+		~Scene9() {
 			for (GameObject* gameObject : gameObjects)
 			{
 				delete gameObject;
@@ -147,6 +150,11 @@ namespace LittleEngine
 				->startRenderConfig()
 				->createFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));
 
+			std::function<void(int, int)> f = [=](int a, int b) {
+				this->inputHandle(a, b);
+			};
+
+			InputManager::instance()->subscribe("SCENE09", f);
 			for (GameObject* go : gameObjects)
 			{
 				go->onStart();
@@ -157,19 +165,14 @@ namespace LittleEngine
 		{
 			renderer->clearBuffersFw();
 			ShaderManager::instance()->useProgram(PROGRAM_NAME);
+			uploadUniformsToProgram(ShaderManager::instance()->getProgram(PROGRAM_NAME));
 			for (GameObject* go : gameObjects)
 			{
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME), camera->getViewProj());
 			}
-			ShaderManager::instance()->useProgram(PROGRAM_NAME_WF);
-			uploadUniformsToProgram(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF));
-			for (GameObject* go : gameObjects)
-			{
-				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF), camera->getViewProj());
-			}
 			renderer->clearBuffersPP();
 			ShaderManager::instance()->useProgram(PROGRAM_NAME_PP);
-			renderer->renderFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));			
+			renderer->renderFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));
 		}
 
 		void update(double deltaTime)
@@ -177,6 +180,18 @@ namespace LittleEngine
 			for (GameObject* go : gameObjects)
 			{
 				go->onUpdate(deltaTime);
+			}
+		}
+
+		void inputHandle(int a, int b)
+		{
+			if (a == 333)
+			{
+				camera->transform->position.z = std::min(15.f, camera->transform->position.z += 0.5);
+			}
+			else if (a == 334)
+			{
+				camera->transform->position.z = std::max(2.0f, camera->transform->position.z -= 0.5);
 			}
 		}
 	};

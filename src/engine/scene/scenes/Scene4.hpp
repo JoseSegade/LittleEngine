@@ -108,6 +108,17 @@ namespace LittleEngine
 
 		}
 
+		void uploadUniformsToProgram(ProgramObject* program)
+		{
+			renderer->setWireframeWidth(2.0);
+			float normalSize = 0.3f;
+			glm::vec3 vertexNormalColor = glm::vec3(1.0, 1.0, 0.0);
+			glm::vec3 faceNormalColor = glm::vec3(1.0, 0.0, 0.0);
+			renderer->uploadUniformVariable(program, "normalSize"       , &normalSize);
+			renderer->uploadUniformVariable(program, "vertexNormalColor", &vertexNormalColor);
+			renderer->uploadUniformVariable(program, "faceNormalColor"  , &faceNormalColor);
+		}
+
 	public:
 
 		~Scene4() {
@@ -153,9 +164,7 @@ namespace LittleEngine
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME), camera->getViewProj());
 			}
 			ShaderManager::instance()->useProgram(PROGRAM_NAME_WF);
-			renderer->setWireframeWidth(2.0);
-			float normalSize = 0.3f;
-			renderer->uploadUniformVariable(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF), "normalSize", &normalSize);
+			uploadUniformsToProgram(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF));
 			for (GameObject* go : gameObjects)
 			{
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF), camera->getViewProj());

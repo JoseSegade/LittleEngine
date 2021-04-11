@@ -51,8 +51,16 @@ LittleEngine::Camera* LittleEngine::Camera::refreshProjectionMatrix()
 	switch (cameraProjection)
 	{
 	case CameraProjection::ORTOGRAPHIC:
-		projMat = glm::ortho(0.f, (float)width, (float)height, 0.f, nearClip, farClip);
+	{
+		float ar = width / height;
+		projMat = glm::ortho(-(float)width / ((float)width / 2.f),
+							  (float)width / ((float)width / 2.f),
+			                  (float)height / ((float)height / 2.f),
+			                 -(float)height / ((float)height / 2.f), 
+			                 -farClip, 
+			                  farClip);
 		break;
+	}
 	case CameraProjection::PERSPECTIVE:
 		projMat = glm::perspective(glm::radians(fov), (float)width / (float)height, nearClip, farClip);
 		break;

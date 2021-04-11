@@ -19,6 +19,11 @@ namespace LittleEngine
 		UNLOADED,
 		LOADED
 	};
+	enum class RenderMode {
+		TRIANGLES,
+		QUADS,
+		TRIANGLES_PATCH
+	};
 	class ProgramObject 
 	{
 	private:
@@ -29,13 +34,17 @@ namespace LittleEngine
 		std::unordered_map<std::string, int>				uniforms;
 		std::unordered_map<unsigned int, Shader*>			shaders;
 
+		RenderMode											renderMode;
+
 		void searchForAttributes	();
 		void searchForUniforms		();
 		void searchAndStoreVariables(VariableType type);
 	public:
-		ProgramObject(const char* name);
+		ProgramObject(const char* name, RenderMode renderMode = RenderMode::TRIANGLES);
 		~ProgramObject();
 		
+		inline RenderMode getRenderMode() { return renderMode; }
+
 		ProgramObject*	addShader			(Shader* shader);
 		ProgramObject*	loadProgram			();
 		ProgramObject*	use					();

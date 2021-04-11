@@ -1,13 +1,13 @@
 #include "ShaderManager.h"
 
-LittleEngine::ShaderManager* LittleEngine::ShaderManager::createProgram(const char* programName)
+LittleEngine::ShaderManager* LittleEngine::ShaderManager::createProgram(const char* programName, RenderMode renderMode)
 {
 	if (programs.count(programName) > 0)
 	{
 		LittleEngine::Utils::printWarning("The program you are atempting to create is already created, or has the same name.", __FILE__, __LINE__);
 		return this;
 	}
-	programs[programName] = new ProgramObject(programName);
+	programs[programName] = new ProgramObject(programName, renderMode);
 	return this;
 }
 

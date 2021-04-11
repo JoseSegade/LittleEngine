@@ -1,5 +1,5 @@
 #pragma once
-#define NAME_LENGHT 16
+#define NAME_LENGHT 32
 #ifndef SHADERVARIABLE_H_
 #define SHADERVARIABLE_H_
 

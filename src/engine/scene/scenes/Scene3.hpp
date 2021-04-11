@@ -108,6 +108,15 @@ namespace LittleEngine
 
 		}
 
+		void uploadUniformsToProgram(ProgramObject* program)
+		{
+			renderer->setWireframeWidth(4.0, WireframeType::POINT);
+			float zOffset = 0.005f;
+			glm::vec3 wireColor = glm::vec3(1.f, 1.f, 0.f);
+			renderer->uploadUniformVariable(program, "zOffset"  , &zOffset);
+			renderer->uploadUniformVariable(program, "wireColor", &wireColor);
+		}
+
 	public:
 
 		~Scene3() {
@@ -152,8 +161,8 @@ namespace LittleEngine
 			{
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME), camera->getViewProj());
 			}
-			renderer->setWireframeWidth(3.0, WireframeType::POINT);
 			ShaderManager::instance()->useProgram(PROGRAM_NAME_WF);
+			uploadUniformsToProgram(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF));
 			for (GameObject* go : gameObjects)
 			{
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF), camera->getViewProj());
@@ -170,5 +179,6 @@ namespace LittleEngine
 				go->onUpdate(deltaTime);
 			}
 		}
+
 	};
 }

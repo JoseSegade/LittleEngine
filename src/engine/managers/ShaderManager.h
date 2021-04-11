@@ -17,7 +17,7 @@ namespace LittleEngine
 		std::unordered_map<std::string, Shader*>			shaders;
 		std::unordered_map<std::string, ProgramObject*>		programs;
 	public:
-		ShaderManager* createProgram	(const char* programName);
+		ShaderManager* createProgram	(const char* programName, RenderMode renderMode = RenderMode::TRIANGLES);
 		ShaderManager* createShader		(const char* shaderName, const char* shaderPath, GLenum type);
 		ShaderManager* assignShader		(const char* shaderName, const char* programName);
 		ShaderManager* loadAllPrograms	();

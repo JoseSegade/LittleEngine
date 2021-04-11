@@ -82,7 +82,7 @@ void LittleEngine::Engine::init() {
 
     glfwGetFramebufferSize(window, &width, &height);
 
-    scene = new Scene4();
+    scene = new Scene9();
     scene->load();
     
     resizeWindow(window, width, height);
@@ -102,13 +102,13 @@ void LittleEngine::Engine::resizeWindow(GLFWwindow* window, int width, int heigh
 void LittleEngine::Engine::key(GLFWwindow* window, int k, int s, int action, int mods)
 {
     if(action != GLFW_PRESS) return;
-    
     if (k == GLFW_KEY_ESCAPE) {        
         currentState = LittleEngine::EngineState::EXIT;
         return;
     }
     if (k == GLFW_KEY_SPACE) {
         currentState = currentState == LittleEngine::EngineState::PAUSE ? LittleEngine::EngineState::PLAY : LittleEngine::EngineState::PAUSE;
+        prevTime = std::chrono::high_resolution_clock::now();
         return;
     }
 

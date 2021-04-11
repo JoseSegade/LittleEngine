@@ -8,6 +8,7 @@
 #include "engine/scene/Light.h"
 #include "engine/utils/OBJReader.h"
 #include "engine/components/MeshRenderer.h"
+#include "engine/components/examples/RotateComponent.hpp"
 
 namespace LittleEngine
 {
@@ -64,7 +65,8 @@ namespace LittleEngine
 			gameObjects.push_back(camera);
 
 			GameObject*		obj				= new GameObject	(1, "OBJ_TEST");
-			MeshRenderer*	meshRendererOBJ	= new MeshRenderer	();				
+			MeshRenderer*	meshRendererOBJ	= new MeshRenderer	();		
+			RotateComponent* rotateComponent = new RotateComponent();
 
 			MaterialManager::instance()
 				->createMaterial("MAT01")
@@ -81,6 +83,7 @@ namespace LittleEngine
 			meshRendererOBJ->setMaterial(MaterialManager::instance()->getMaterial("MAT01"));
 
 			obj->addComponent(meshRendererOBJ);
+			obj->addComponent(rotateComponent);
 
 			gameObjects.push_back(obj);		
 
@@ -115,6 +118,11 @@ namespace LittleEngine
 			renderer
 				->startRenderConfig()
 				->createFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));
+
+			for (GameObject* go : gameObjects)
+			{
+				go->onStart();
+			}
 		}
 
 		void render()
