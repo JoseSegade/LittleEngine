@@ -125,7 +125,6 @@ namespace LittleEngine
 			{
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME), camera->getViewProj());
 			}
-			
 			renderer->clearBuffersPP();
 			ShaderManager::instance()->useProgram(PROGRAM_NAME_PP);
 			renderer->renderFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));			

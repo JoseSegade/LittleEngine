@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB_RECURSE SRCS ${CMAKE_SOURCE_DIR}/src/*.cpp)
 file(GLOB_RECURSE HDRS ${CMAKE_SOURCE_DIR}/src/*.h)
+file(GLOB_RECURSE HPPS ${CMAKE_SOURCE_DIR}/src/*.hpp)
 
 add_subdirectory("ext/glfw")
 add_subdirectory("ext/glad")
@@ -56,6 +57,7 @@ add_library(lodepng
 add_executable("${PROJECT_NAME}"
     "${SRCS}"
     "${HDRS}"
+    "${HPPS}"
 ) 
 
 target_include_directories("${PROJECT_NAME}"

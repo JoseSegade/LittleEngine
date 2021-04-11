@@ -29,7 +29,7 @@ namespace LittleEngine
 		const char* GEOM_SHADER_NAME_WF		= "GeomShaderWireframe";
 		const char* FRAGMENT_SHADER_NAME_WF = "FragmentShaderWireframe";
 		const char* VERTEX_SHADER_PATH_WF	= "../shaders/geomWireframe.vert";
-		const char* GEOM_SHADER_PATH_WF		= "../shaders/geomWireframe.geom";
+		const char* GEOM_SHADER_PATH_WF		= "../shaders/geomNormals.geom";
 		const char* FRAGMENT_SHADER_PATH_WF	= "../shaders/geomWireframe.frag";
 
 		const char* PROGRAM_NAME_PP			= "ProgramPP";
@@ -152,8 +152,10 @@ namespace LittleEngine
 			{
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME), camera->getViewProj());
 			}
-			glLineWidth(3.0f);
 			ShaderManager::instance()->useProgram(PROGRAM_NAME_WF);
+			renderer->setWireframeWidth(2.0);
+			float normalSize = 0.3f;
+			renderer->uploadUniformVariable(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF), "normalSize", &normalSize);
 			for (GameObject* go : gameObjects)
 			{
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME_WF), camera->getViewProj());

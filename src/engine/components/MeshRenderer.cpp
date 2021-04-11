@@ -9,7 +9,7 @@ LittleEngine::MeshRenderer::~MeshRenderer()
 
 void LittleEngine::MeshRenderer::initializeVAOData(ProgramObject* program)
 {
-	// TODO: Optimice this monstuous chunk of code.
+	// TODO: Optimice this monstruous chunk of code.
 
 	if (mesh == nullptr)
 	{
@@ -116,18 +116,21 @@ void LittleEngine::MeshRenderer::onRender(ProgramObject* program, ViewProj &view
 	int projLocation			= program->getVariableId("model", LittleEngine::VariableType::UNIFORM);
 	int viewLocation			= program->getVariableId("view", LittleEngine::VariableType::UNIFORM);
 	int modelLocation			= program->getVariableId("proj", LittleEngine::VariableType::UNIFORM);
+	int viewProjLocation		= program->getVariableId("viewProj", LittleEngine::VariableType::UNIFORM);
 
 	glm::mat4 model			= gameObject->transform->GetTransformationMatrix();
 	glm::mat4 modelView		= viewProj.view * model;
 	glm::mat4 normal		= glm::transpose(glm::inverse(modelView));
-	glm::mat4 modelViewProj = viewProj.proj * modelView;	
+	glm::mat4 modelViewProj = viewProj.proj * modelView;
+	glm::mat4 viewProjMat   = viewProj.proj * viewProj.view;
 
 	if (normalLocation > -1)		program->setUniformMatrix4fv(normalLocation		  ,	&normal[0][0]);
 	if (modelViewLocation > -1)		program->setUniformMatrix4fv(modelViewLocation    ,	&modelView[0][0]);
 	if (modelViewProjLocation > -1)	program->setUniformMatrix4fv(modelViewProjLocation, &modelViewProj[0][0]);
 	if (projLocation > -1)			program->setUniformMatrix4fv(projLocation		  , &viewProj.proj[0][0]);
 	if (viewLocation > -1)			program->setUniformMatrix4fv(viewLocation		  , &viewProj.view[0][0]);
-	if (modelLocation > -1)			program->setUniformMatrix4fv(modelLocation        , &model[0][0]);
+	if (modelLocation > -1)			program->setUniformMatrix4fv(modelLocation		  , &model[0][0]);
+	if (viewProjLocation > -1)		program->setUniformMatrix4fv(viewProjLocation     , &viewProjMat[0][0]);
 
 	vao->bind();
 	indexBuffer->render();

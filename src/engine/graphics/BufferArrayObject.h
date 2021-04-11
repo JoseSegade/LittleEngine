@@ -13,8 +13,6 @@ namespace LittleEngine
 	{
 	private:
 		std::vector<AttributeVariable*>		attributes;
-		GLenum								renderMode;
-		unsigned int						sizePerElement;
 		bool								normalized;
 
 		void disableAllAttributes();
@@ -24,7 +22,6 @@ namespace LittleEngine
 
 		BufferArrayObject* bind				() override;
 		BufferArrayObject* unbind			() override;
-		BufferArrayObject* render			() override;
 		BufferArrayObject* generateVAO		();
 		BufferArrayObject* addBufferObject	(BufferObject& vbo, std::vector<AttributeVariable*> attributes);
 	};

@@ -31,9 +31,21 @@ LittleEngine::ProgramObject* LittleEngine::ProgramObject::use()
 	return this;
 }
 
+LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform1u(unsigned int variableLocation, int value)
+{
+	glUniform1ui(variableLocation, value);
+	return this;
+}
+
 LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform1i(unsigned int variableLocation, int index)
 {
 	glUniform1i(variableLocation, index);
+	return this;
+}
+
+LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform1f(unsigned int variableLocation, float value)
+{
+	glUniform1f(variableLocation, value);
 	return this;
 }
 

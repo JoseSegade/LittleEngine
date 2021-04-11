@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #define GLFW_INCLUDE_NONE
-#define MS_PER_UPDATE 0.032
+#define MS_PER_UPDATE 0.016
 
 #include <string>
 #include <chrono>

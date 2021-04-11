@@ -10,7 +10,7 @@ void LittleEngine::BufferArrayObject::disableAllAttributes()
 
 LittleEngine::BufferArrayObject::BufferArrayObject(GLenum dataType, GLenum bufferType,
 	GLenum renderMode, bool normalized) :
-	BufferObject(dataType, bufferType, renderMode), sizePerElement(0), attributes(), normalized(normalized)
+	BufferObject(dataType, bufferType, renderMode), attributes(), normalized(normalized)
 {	
 }
 
@@ -45,6 +45,7 @@ LittleEngine::BufferArrayObject* LittleEngine::BufferArrayObject::addBufferObjec
 	bind();
 	vbo.bind();
 
+	int sizePerElement = 0;
 	for (AttributeVariable* attribute : attributes)
 	{
 		attribute->offset = sizePerElement;
@@ -54,12 +55,6 @@ LittleEngine::BufferArrayObject* LittleEngine::BufferArrayObject::addBufferObjec
 
 		sizePerElement += attribute->count;
 	}
-	return this;
-}
-
-LittleEngine::BufferArrayObject* LittleEngine::BufferArrayObject::render()
-{
-	//glDrawArrays(renderMode, 0, 36);
 	return this;
 }
 

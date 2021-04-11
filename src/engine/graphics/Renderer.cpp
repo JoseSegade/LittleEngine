@@ -88,5 +88,20 @@ LittleEngine::Renderer* LittleEngine::Renderer::uploadResolutionToProgram(Progra
         const float vector[] = { width, height, 1.f };
         program->setUniform3fv(resolutionLocation, &vector[0]);
 ;    }
-    return nullptr;
+    return this;
 }
+
+LittleEngine::Renderer* LittleEngine::Renderer::setWireframeWidth(float width, WireframeType type)
+{
+    if (type == WireframeType::LINE)
+    {
+        glLineWidth(width);
+    }
+    else if (type == WireframeType::POINT)
+    {
+        glPointSize(width);
+    }
+    return this;
+}
+
+

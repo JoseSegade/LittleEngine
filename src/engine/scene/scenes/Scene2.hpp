@@ -152,7 +152,7 @@ namespace LittleEngine
 			{
 				go->onRender(ShaderManager::instance()->getProgram(PROGRAM_NAME), camera->getViewProj());
 			}
-			glLineWidth(2.0f);
+			renderer->setWireframeWidth(2.0f);
 			ShaderManager::instance()->useProgram(PROGRAM_NAME_WF);
 			for (GameObject* go : gameObjects)
 			{
