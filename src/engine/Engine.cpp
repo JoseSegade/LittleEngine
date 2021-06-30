@@ -5,8 +5,8 @@ LittleEngine::Engine::Engine(const char* name, int width, int height): name(name
     if (!glfwInit())
         std::exit(EXIT_FAILURE);
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4.3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4.3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
@@ -82,7 +82,7 @@ void LittleEngine::Engine::init() {
 
     glfwGetFramebufferSize(window, &width, &height);
 
-    scene = new Scene9();
+    scene = new Scene10();
     scene->load();
     
     resizeWindow(window, width, height);

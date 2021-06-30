@@ -17,7 +17,7 @@ void LittleEngine::MeshRenderer::initializeVAOData(ProgramObject* program)
 		return;
 	}
 
-	vao					= new BufferArrayObject	(GL_FLOAT, GL_ARRAY_BUFFER, GL_TRIANGLES, GL_FALSE);
+	vao					= new BufferArrayObject	(GL_FLOAT, GL_ARRAY_BUFFER, GL_FALSE);
 	vao->generateVAO();
 
 	BufferObject* vbo	= new BufferObject		(GL_FLOAT, GL_ARRAY_BUFFER);

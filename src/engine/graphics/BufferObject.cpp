@@ -20,7 +20,7 @@ unsigned int LittleEngine::BufferObject::calculateDataSize()
 	return 0;
 }
 
-LittleEngine::BufferObject::BufferObject(GLenum dataType, GLenum bufferType, GLenum renderMode) :
+LittleEngine::BufferObject::BufferObject(GLenum dataType, GLenum bufferType) :
 	dataType(dataType), bufferType(bufferType), id(0), size(0)
 {
 }
@@ -36,6 +36,14 @@ LittleEngine::BufferObject* LittleEngine::BufferObject::bind()
 	return this;
 }
 
+LittleEngine::BufferObject* LittleEngine::BufferObject::bindAsVertexArray()
+{
+	glBindVertexArray(id);
+	return this;
+}
+
+
+
 LittleEngine::BufferObject* LittleEngine::BufferObject::unbind()
 {
 	glBindBuffer(bufferType, 0);
@@ -44,33 +52,74 @@ LittleEngine::BufferObject* LittleEngine::BufferObject::unbind()
 
 LittleEngine::BufferObject* LittleEngine::BufferObject::render(RenderMode renderMode)
 {
-	if (renderMode == RenderMode::TRIANGLES)
+
+	switch (renderMode)
+	{
+	case RenderMode::TRIANGLES:
 	{
 		glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, (void*)0);
+		break;
 	}
-	else if (renderMode == RenderMode::QUADS)
+	case RenderMode::QUADS:
 	{
 		glPatchParameteri(GL_PATCH_VERTICES, 4);
 		glDrawElements(GL_PATCHES, size, GL_UNSIGNED_INT, (void*)0);
+		break;
 	}
-	else if (renderMode == RenderMode::TRIANGLES_PATCH)
+	case RenderMode::TRIANGLES_PATCH:
 	{
 		glPatchParameteri(GL_PATCH_VERTICES, 3);
 		glDrawElements(GL_PATCHES, size, GL_UNSIGNED_INT, (void*)0);
+		break;
 	}
-	else
+	case RenderMode::POINTS:
 	{
-		// Nothing to do here;
+		glDrawArrays(GL_POINTS, 0, size);
+		break;
 	}
+	default:
+		// This should never happen
+		break;
+	}
+	
 	return this;
 }
 
 LittleEngine::BufferObject* LittleEngine::BufferObject::addDataToShader(const void* data, int size)
+{	
+	return addDataToShaderSpecifyDataSize(data, size, calculateDataSize());
+}
+
+LittleEngine::BufferObject* LittleEngine::BufferObject::addDataToShaderSpecifyDataSize(const void* data, int size, int dataSize)
 {
 	this->size = size;
 	glGenBuffers(1, &id);
 	glBindBuffer(bufferType, id);
-	unsigned int sizeTimesData = size * calculateDataSize();
+	unsigned int sizeTimesData = size * dataSize;
 	glBufferData(bufferType, sizeTimesData, data, GL_STATIC_DRAW);
+	return this;
+}
+
+LittleEngine::BufferObject* LittleEngine::BufferObject::bindBufferBase(int bufferLocation)
+{
+	glBindBufferBase(bufferType, bufferLocation, id);
+	return this;
+}
+
+LittleEngine::BufferObject* LittleEngine::BufferObject::compute(int blocksCount)
+{
+	glDispatchCompute(blocksCount, 1, 1);
+	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+	return this;
+}
+
+void* LittleEngine::BufferObject::mapBufferOnObject(int size)
+{
+	return glMapBufferRange(bufferType, 0, size, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+}
+
+LittleEngine::BufferObject* LittleEngine::BufferObject::unmapBuffer()
+{
+	glUnmapBuffer(bufferType);
 	return this;
 }

@@ -17,13 +17,15 @@ namespace LittleEngine
 
 		void disableAllAttributes();
 	public:
-		BufferArrayObject(GLenum dataType = GL_FLOAT, GLenum bufferType = GL_ARRAY_BUFFER, GLenum renderMode = GL_TRIANGLES, bool normalized = false);
+		BufferArrayObject(GLenum dataType = GL_FLOAT, GLenum bufferType = GL_ARRAY_BUFFER, bool normalized = false);
 		~BufferArrayObject();
 
 		BufferArrayObject* bind				() override;
 		BufferArrayObject* unbind			() override;
 		BufferArrayObject* generateVAO		();
 		BufferArrayObject* addBufferObject	(BufferObject& vbo, std::vector<AttributeVariable*> attributes);
+
+		inline BufferArrayObject* setSize(int value) { size = value; return this; }
 	};
 }
 

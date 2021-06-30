@@ -20,6 +20,7 @@
 #include "engine/scene/scenes/Scene6.hpp"
 #include "engine/scene/scenes/Scene7.hpp"
 #include "engine/scene/scenes/Scene9.hpp"
+#include "engine/scene/scenes/Scene10.hpp"
 
 namespace LittleEngine 
 {

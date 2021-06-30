@@ -68,6 +68,11 @@ namespace LittleEngine
 			glm::vec3* vec = reinterpret_cast<glm::vec3*>(value);
 			program->setUniform3fv(location, &vec[0][0]);
 		}
+		else if (typeid(T) == typeid(glm::vec4))
+		{
+			glm::vec4* vec = reinterpret_cast<glm::vec4*>(value);
+			program->setUniform4fv(location, &vec[0][0]);
+		}
 		else
 		{
 			Utils::printWarning("This variable type is not implemented yet.", __FILE__, __LINE__);

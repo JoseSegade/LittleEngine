@@ -58,15 +58,34 @@ void LittleEngine::GameObject::onRender(ProgramObject* program, ViewProj &viewPr
 	{		
 		for (Component* component : components)
 		{
-			MeshRenderer* meshRenderer = dynamic_cast<MeshRenderer*>(component);
-			if (meshRenderer != nullptr)
+			IRenderizable* renderizable = dynamic_cast<IRenderizable*>(component);
+			if (renderizable != nullptr)
 			{
-				meshRenderer->onRender(program, viewProj);
+				renderizable->onRender(program, viewProj);
 			}
 		}
 		for (GameObject* gameObject : children)
 		{
 			gameObject->onRender(program, viewProj);
+		}
+	}
+}
+
+void LittleEngine::GameObject::onCompute(ProgramObject* program)
+{
+	if (m_isVisible)
+	{
+		for (Component* component : components)
+		{
+			IComputable* computable = dynamic_cast<IComputable*>(component);
+			if (computable != nullptr)
+			{
+				computable->onCompute(program);
+			}
+		}
+		for (GameObject* gameObject : children)
+		{
+			gameObject->onCompute(program);
 		}
 	}
 }

@@ -22,7 +22,8 @@ namespace LittleEngine
 	enum class RenderMode {
 		TRIANGLES,
 		QUADS,
-		TRIANGLES_PATCH
+		TRIANGLES_PATCH,
+		POINTS
 	};
 	class ProgramObject 
 	{
@@ -53,7 +54,8 @@ namespace LittleEngine
 		ProgramObject*	setUniform1f		(unsigned int variableLocation, float value);
 		ProgramObject*	setUniform1d		(unsigned int variableLocation, double value);
 		ProgramObject*	setUniformMatrix4fv	(unsigned int variableLocation, const float* values);
-		ProgramObject*	setUniform3fv		(unsigned int variableLocation, const float* values);
+		ProgramObject*  setUniform3fv       (unsigned int variableLocation, const float* values);
+		ProgramObject*	setUniform4fv		(unsigned int variableLocation, const float* values);
 		int				getVariableId		(const std::string& name, const VariableType& type);		
 	};
 }

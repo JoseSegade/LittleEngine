@@ -67,6 +67,12 @@ LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform3fv(unsigned
 	return this;
 }
 
+LittleEngine::ProgramObject* LittleEngine::ProgramObject::setUniform4fv(unsigned int variableLocation, const float* values)
+{
+	glUniform4fv(variableLocation, 1, values);
+	return this;
+}
+
 int LittleEngine::ProgramObject::getVariableId(const std::string& name, const VariableType& type)
 {
 	if (type == VariableType::ATTRIBUTE ? attributes.count(name) < 1 : uniforms.count(name) < 1)
@@ -89,7 +95,6 @@ LittleEngine::ProgramObject* LittleEngine::ProgramObject::addShader(Shader* shad
 LittleEngine::ProgramObject* LittleEngine::ProgramObject::loadProgram()
 {
 	id = glCreateProgram();
-
 	for (const auto& shader : shaders)
 	{
 		shader.second->SetProgram(&id);

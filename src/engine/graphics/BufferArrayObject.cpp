@@ -8,9 +8,8 @@ void LittleEngine::BufferArrayObject::disableAllAttributes()
 	}
 }
 
-LittleEngine::BufferArrayObject::BufferArrayObject(GLenum dataType, GLenum bufferType,
-	GLenum renderMode, bool normalized) :
-	BufferObject(dataType, bufferType, renderMode), attributes(), normalized(normalized)
+LittleEngine::BufferArrayObject::BufferArrayObject(GLenum dataType, GLenum bufferType, bool normalized) :
+	BufferObject(dataType, bufferType), attributes(), normalized(normalized)
 {	
 }
 
@@ -49,8 +48,9 @@ LittleEngine::BufferArrayObject* LittleEngine::BufferArrayObject::addBufferObjec
 	for (AttributeVariable* attribute : attributes)
 	{
 		attribute->offset = sizePerElement;
-		glVertexAttribPointer(attribute->id, attribute->count, dataType, normalized, attribute->stride, (void*)(attribute->offset*calculateDataSize()));
-		glEnableVertexAttribArray(attribute->id);
+		unsigned int offsetTimesDataSize = attribute->offset * calculateDataSize();
+		if (attribute->id > -1) glEnableVertexAttribArray(attribute->id);
+		if (attribute->id > -1) glVertexAttribPointer(attribute->id, attribute->count, dataType, normalized, attribute->stride, (void*)offsetTimesDataSize);
 		this->attributes.push_back(attribute);
 
 		sizePerElement += attribute->count;

@@ -5,14 +5,17 @@
 
 #include <vector>
 #include <string>
-class Component;
 #include "engine/components/Component.h"
+#include "engine/graphics/IRenderizable.h"
+#include "engine/graphics/IComputable.h"
 #include "engine/components/Transform.h"
 #include "engine/graphics/Renderer.h"
-#include "engine/components/MeshRenderer.h"
 
 namespace LittleEngine
-{
+{	
+	class Component;
+	class IRenderizable;
+	class IComputable;
 	class GameObject {
 	public:
 		unsigned int	id;
@@ -26,6 +29,7 @@ namespace LittleEngine
 		virtual void onStart			();
 		virtual void onUpdate			(double deltaTime);
 		virtual void onRender			(ProgramObject* program, ViewProj &viewProj);
+		virtual void onCompute          (ProgramObject* program);
 
 		void addChild					(GameObject* child);
 		void addComponent				(Component* component);

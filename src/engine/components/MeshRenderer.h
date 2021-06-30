@@ -3,22 +3,21 @@
 #define MESHRENDERER_H_
 
 #include <vector>
-#include "engine/components/Component.h"
+#include "engine/graphics/IRenderizable.h"
 #include "engine/graphics/BufferArrayObject.h"
 #include "engine/components/Mesh.h"
 #include "engine/graphics/Renderer.h"
 
 namespace LittleEngine
 {
-	class MeshRenderer : public Component
+	class MeshRenderer : public IRenderizable
 	{
 	private:
-		BufferArrayObject*	vao;
 		BufferObject*		indexBuffer;
 		Mesh*				mesh;
 		Material*			material;
 	public:
-		MeshRenderer(): Component(), vao(nullptr), indexBuffer(nullptr), mesh(nullptr), material(nullptr) {}
+		MeshRenderer() : IRenderizable(), indexBuffer(nullptr), mesh(nullptr), material(nullptr) {}
 		~MeshRenderer();
 
 		inline void		setMesh				(Mesh* value)		{ mesh = value; }

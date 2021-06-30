@@ -3,7 +3,6 @@
 #define COMPONENT_H_
 
 #include <string>
-#include "engine/scene/GameObject.h"
 
 namespace LittleEngine 
 {
