@@ -11,9 +11,9 @@ namespace LittleEngine
 	class IPublisher
 	{
 	protected:
-		std::unordered_map<std::string, std::function<void(int, int)>> subscribers;
+		std::unordered_map<std::string, std::function<void(const void*, const size_t)>> subscribers;
 	public:
-		void subscribe(const char* name, std::function<void(int, int)> func)
+		void subscribe(const char* name, std::function<void(const void*, const size_t)> func)
 		{
 			if (subscribers.count(name) < 1)
 			{

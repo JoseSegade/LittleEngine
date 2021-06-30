@@ -150,8 +150,8 @@ namespace LittleEngine
 				->startRenderConfig()
 				->createFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));
 
-			std::function<void(int, int)> f = [=](int a, int b) {
-				this->inputHandle(a, b);
+			std::function<void(const void*, const size_t)> f = [=](const void* data, const size_t classId) {
+				this->inputHandle(data, classId);
 			};
 
 			InputManager::instance()->subscribe("SCENE09", f);
@@ -183,15 +183,20 @@ namespace LittleEngine
 			}
 		}
 
-		void inputHandle(int a, int b)
+		void inputHandle(const void* data, const size_t classId)
 		{
-			if (a == 333)
+			if (classId == typeid(KeyMessage).hash_code())
 			{
-				camera->transform->position.z = std::min(15.f, camera->transform->position.z += 0.5);
-			}
-			else if (a == 334)
-			{
-				camera->transform->position.z = std::max(2.0f, camera->transform->position.z -= 0.5);
+				const KeyMessage* message = reinterpret_cast<const KeyMessage*>(data);
+				int a = message->k;
+				if (a == 333)
+				{
+					camera->transform->position.z = std::min(15.f, camera->transform->position.z += 0.5);
+				}
+				else if (a == 334)
+				{
+					camera->transform->position.z = std::max(2.0f, camera->transform->position.z -= 0.5);
+				}
 			}
 		}
 	};

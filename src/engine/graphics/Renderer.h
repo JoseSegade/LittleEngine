@@ -48,6 +48,11 @@ namespace LittleEngine
 			float* val = reinterpret_cast<float*>(value);
 			program->setUniform1f(location, *val);
 		}
+		else if (typeid(T) == typeid(double))
+		{
+			double* val = reinterpret_cast<double*>(value);
+			program->setUniform1d(location, *val);
+		}
 		else if (typeid(T) == typeid(unsigned int))
 		{
 			unsigned int* val = reinterpret_cast<unsigned int*>(value);

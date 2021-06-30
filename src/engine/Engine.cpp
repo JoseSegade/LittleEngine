@@ -74,6 +74,19 @@ void LittleEngine::Engine::init() {
         Engine* self = static_cast<Engine*>(glfwGetWindowUserPointer(window));
         self->key( window, k, s, action, mods);
     });
+    glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
+        Engine* self = static_cast<Engine*>(glfwGetWindowUserPointer(window));
+        self->mouse(window, button, action, mods);
+    });
+    glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos) {
+        Engine* self = static_cast<Engine*>(glfwGetWindowUserPointer(window));
+        self->mouseMove(window, xpos, ypos);
+    });
+    glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
+        Engine* self = static_cast<Engine*>(glfwGetWindowUserPointer(window));
+        self->mouseScroll(window, xoffset, yoffset);
+    });
+
     //glfwSetCursorPosCallback(window, cursorPosFun);
     //glfwSetMouseButtonCallback(window, mouseButtonFun);
     glfwMakeContextCurrent(window);
@@ -115,6 +128,23 @@ void LittleEngine::Engine::key(GLFWwindow* window, int k, int s, int action, int
     InputManager::instance()->key(window, k, s, action, mods);
 }
 
+void LittleEngine::Engine::mouse(GLFWwindow* window, int button, int action, int mods)
+{
+    double px, py;
+    glfwGetCursorPos(window, &px, &py);
+    InputManager::instance()->mouse(window, button, action, mods, px, py);
+}
+
+void LittleEngine::Engine::mouseMove(GLFWwindow* window, double xpos, double ypos)
+{
+    InputManager::instance()->mouseMove(window, xpos, ypos);
+}
+
+void LittleEngine::Engine::mouseScroll(GLFWwindow* window, double xoffset, double yoffset)
+{
+    InputManager::instance()->mouseScroll(window, xoffset, yoffset);
+}
+
 void LittleEngine::Engine::mainLoop() 
 {
     glfwGetFramebufferSize(window, &width, &height);
@@ -128,6 +158,10 @@ void LittleEngine::Engine::mainLoop()
             scene->update(elapsed);
             lag -= MS_PER_UPDATE;
         }
+    }
+    else
+    {
+        scene->updateCamera(MS_PER_UPDATE);
     }
     scene->render();
 

@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #define GLFW_INCLUDE_NONE
-#define MS_PER_UPDATE 0.016
+#define MS_PER_UPDATE 0.032
 
 #include <string>
 #include <chrono>
@@ -43,6 +43,9 @@ namespace LittleEngine
 
 		void resizeWindow	(GLFWwindow* window, int width, int height);
 		void key			(GLFWwindow* window, int k, int s, int action, int mods);
+		void mouse          (GLFWwindow* window, int button, int action, int mods);
+		void mouseMove      (GLFWwindow* window, double xpos, double ypos);
+		void mouseScroll    (GLFWwindow* window, double xoffset, double yoffset);
 		void mainLoop		();
 		void exit			();
 	public:

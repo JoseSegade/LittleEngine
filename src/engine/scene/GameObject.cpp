@@ -64,10 +64,10 @@ void LittleEngine::GameObject::onRender(ProgramObject* program, ViewProj &viewPr
 				renderizable->onRender(program, viewProj);
 			}
 		}
-		for (GameObject* gameObject : children)
+		/*for (GameObject* gameObject : children)
 		{
 			gameObject->onRender(program, viewProj);
-		}
+		}*/
 	}
 }
 

@@ -14,8 +14,9 @@ LittleEngine::ParticleAttractor::~ParticleAttractor()
 LittleEngine::ParticleAttractor* LittleEngine::ParticleAttractor::addAttractor(glm::vec3 worldPosition, float atractionIntensity, float actionRadius)
 {
 	Attractor atr = Attractor();
-	atr.position = glm::vec4(worldPosition, actionRadius);
-	atr.force    = glm::vec4(atractionIntensity, 0.0, 0.0, 0.0);
+	atr.position  = glm::vec4(worldPosition, actionRadius);
+	float sign    = atractionIntensity < 0 ? -1 : 1;
+	atr.force     = glm::vec4(sign * atractionIntensity, sign, 0.0, 0.0);
 	atractors.push_back(atr);
 	return this;
 }

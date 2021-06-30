@@ -3,6 +3,7 @@
 #define PARTICLEATTRACTOR_H_
 
 #include <vector>
+#include <math.h>
 #include <glm/glm.hpp>
 #include "engine/graphics/BufferObject.h"
 #include "engine/components/Component.h"

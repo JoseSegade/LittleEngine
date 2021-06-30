@@ -154,8 +154,8 @@ namespace LittleEngine
 				->startRenderConfig()
 				->createFBO(ShaderManager::instance()->getProgram(PROGRAM_NAME_PP));
 
-			std::function<void(int, int)> f = [=](int a, int b) {
-				this->inputHandle(a, b);
+			std::function<void(const void*, const size_t)> f = [=](const void* data, const size_t classId) {
+				this->inputHandle(data, classId);
 			};
 			
 			InputManager::instance()->subscribe("SCENE06", f);
@@ -187,16 +187,21 @@ namespace LittleEngine
 			}
 		}
 
-		void inputHandle(int a, int b)
+		void inputHandle(const void* data, const size_t classId)
 		{
-			if (a == 333)
+			if (classId == typeid(KeyMessage).hash_code())
 			{
-				divs = std::max(1.f, --divs);
-			}
-			else if (a == 334)
-			{
-				divs = std::min(7.f, ++divs);
-				
+				const KeyMessage* message = reinterpret_cast<const KeyMessage*>(data);
+				int a = message->k;
+				if (a == 333)
+				{
+					divs = std::max(1.f, --divs);
+				}
+				else if (a == 334)
+				{
+					divs = std::min(7.f, ++divs);
+
+				}
 			}
 		}
 	};

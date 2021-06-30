@@ -7,8 +7,6 @@ struct Particle {
 	vec4 velocity;
 	vec4 color;
 	vec4 lifetime;
-	vec4 initPos;
-	vec4 initVel;
 };
 
 struct Atractor {
@@ -26,13 +24,10 @@ layout(std140, binding=1) buffer Atra {
 
 layout(local_size_x=128, local_size_y=1, local_size_z=1) in;
 
-layout(location=0) uniform float  time;
-layout(location=1) uniform int    particlesCount;
-layout(location=2) uniform float  timeStep;
-layout(location=3) uniform vec4   gravity;
-layout(location=4) uniform vec4   spherePos;
-layout(location=5) uniform vec4   colorIni;
-layout(location=6) uniform vec4   colorEnd;
+layout(location=0) uniform int    particlesCount;
+layout(location=1) uniform float  timeStep;
+layout(location=2) uniform vec4   gravity;
+layout(location=3) uniform vec4   spherePos;
 
 vec4 Bounce(vec3 vin, vec3 n)
 {
@@ -60,23 +55,16 @@ void main()
 
 	vec4 p = particles[gid].position;
 	vec4 v = particles[gid].velocity;
-	vec4 c = particles[gid].color;
-	vec4 l = particles[gid].lifetime;
 
 	vec4 vp = v + gravity*timeStep;
 	vec4 pp = p + vp * timeStep + .5 * timeStep * timeStep * gravity;
 
 	for(int i = 0; i < atractors.length(); ++i)
 	{
-	    float dist = distance(pp, atractors[i].position) * 100000.0;
-		float field = 99999.0 / dist * dist;
-		field = clamp(field, 0.0, atractors[i].force.x);
-		vec4 atrForce = atractors[i].force.x * field * (pp - atractors[i].position) / dist;
-
-		vp += atrForce;
 	}
-	pp = p + vp * timeStep + .5 * timeStep * timeStep * gravity;
 
+	vec4 attractorForce = vec4(dx, dy, dz, 1);
+	pp +=attractorForce;
 
 	if(IsInsideSphere(pp, spherePos))
 	{
@@ -84,20 +72,9 @@ void main()
 		pp = p + vp * timeStep + .5 * timeStep * timeStep * gravity;
 	}
 
-	l.x += timeStep;
-	if(l.x > l.y)
-	{
-		pp = particles[gid].initPos;
-		vp = particles[gid].initVel;
-		l.x = 0;
-	}
-	float factor = l.x / l.y;
-	c = vec4(mix(colorIni.x, colorEnd.x, factor), mix(colorIni.x, colorEnd.y, factor), mix(colorEnd.z, colorEnd.z, factor), 1);
 
 	outPart.velocity = vp;
 	outPart.position = pp;
-	outPart.color = c;
-	outPart.lifetime = l;
 
 	particles[gid] = outPart; 
 }

@@ -96,7 +96,7 @@ LittleEngine::BufferObject* LittleEngine::BufferObject::addDataToShaderSpecifyDa
 	glGenBuffers(1, &id);
 	glBindBuffer(bufferType, id);
 	unsigned int sizeTimesData = size * dataSize;
-	glBufferData(bufferType, sizeTimesData, data, GL_STATIC_DRAW);
+	glBufferData(bufferType, sizeTimesData, data, GL_DYNAMIC_DRAW);
 	return this;
 }
 
@@ -115,7 +115,7 @@ LittleEngine::BufferObject* LittleEngine::BufferObject::compute(int blocksCount)
 
 void* LittleEngine::BufferObject::mapBufferOnObject(int size)
 {
-	return glMapBufferRange(bufferType, 0, size, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+	return glMapBufferRange(bufferType, 0, size, GL_MAP_WRITE_BIT);
 }
 
 LittleEngine::BufferObject* LittleEngine::BufferObject::unmapBuffer()
