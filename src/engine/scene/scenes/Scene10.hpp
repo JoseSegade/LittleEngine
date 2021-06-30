@@ -99,52 +99,57 @@ namespace LittleEngine
 			camera->addComponent(camComp);
 
 			gameObjects.push_back(camera);
+			
+#pragma region PARTICLE_EMITTER_1
+			{
+				GameObject* obj = new GameObject(1, "PARTICLE_EMITTER");
+				obj->transform->position = glm::vec3(7.f, 1.f, 0.f);
+				obj->transform->rotation = glm::rotate(obj->transform->rotation, glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
+				ParticleSystem* particleSystem = new ParticleSystem();
+				ParticleAttractor* particleAtractor = new ParticleAttractor();
+				obj->addComponent(particleSystem);
+				obj->addComponent(particleAtractor);
+				particleSystem->setNumParticles(8192);
+				particleSystem->initializeVAOData(ShaderManager::instance()->getProgram(PROGRAM_NAME));
+				//particleAtractor->addAttractor(glm::vec3(0., 5., 0), 50.f, .5f)->createBufferToCompute(1);
+				gameObjectsRendering[PROGRAM_NAME_COMPUTE].push_back(obj);
+				gameObjectsRendering[PROGRAM_NAME].push_back(obj);
+				gameObjects.push_back(obj);
+			}
+#pragma endregion
 
-			GameObject* obj = new GameObject(1, "PARTICLE_EMITTER");
+#pragma region PARTICLE_EMITTER_2
+			{
+				GameObject* obj1 = new GameObject(3, "PARTICLE_EMITTER_2");
+				obj1->transform->position = glm::vec3(-7.f, 3.f, 0.f);
+				obj1->transform->rotation = glm::rotate(obj1->transform->rotation, glm::radians(-90.f), glm::vec3(0.f, 0.f, 1.f));
+				ParticleSystem* particleSystem1 = new ParticleSystem();
+				obj1->addComponent(particleSystem1);
+				particleSystem1->setNumParticles(8192);
+				particleSystem1->initializeVAOData(ShaderManager::instance()->getProgram(PROGRAM_NAME));
+				gameObjectsRendering[PROGRAM_NAME_COMPUTE].push_back(obj1);
+				gameObjectsRendering[PROGRAM_NAME].push_back(obj1);
+				gameObjects.push_back(obj1);
+			}
+#pragma endregion
 
-			obj->transform->position = glm::vec3(7.f, 1.f, 0.f);
-			obj->transform->rotation = glm::rotate(obj->transform->rotation, glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
-
-			ParticleSystem* particleSystem = new ParticleSystem();
-			ParticleAttractor* particleAtractor = new ParticleAttractor();
-
-			obj->addComponent(particleSystem);
-			obj->addComponent(particleAtractor);
-
-			particleSystem->setNumParticles(8192);
-			particleSystem->initializeVAOData(ShaderManager::instance()->getProgram(PROGRAM_NAME));
-
-			//particleAtractor->addAttractor(glm::vec3(0., 5., 0), 50.f, .5f)->createBufferToCompute(1);
-
-			gameObjectsRendering[PROGRAM_NAME_COMPUTE].push_back(obj);
-			gameObjectsRendering[PROGRAM_NAME].push_back(obj);
-
-			gameObjects.push_back(obj);
-
-			GameObject* obj1 = new GameObject(3, "PARTICLE_EMITTER_2");
-			obj1->transform->position = glm::vec3(-7.f, 3.f, 0.f);
-			obj1->transform->rotation = glm::rotate(obj1->transform->rotation, glm::radians(-90.f), glm::vec3(0.f, 0.f, 1.f));
-			ParticleSystem* particleSystem1 = new ParticleSystem();
-			obj1->addComponent(particleSystem1);
-			particleSystem1->setNumParticles(8192);
-			particleSystem1->initializeVAOData(ShaderManager::instance()->getProgram(PROGRAM_NAME));
-			gameObjectsRendering[PROGRAM_NAME_COMPUTE].push_back(obj1);
-			gameObjectsRendering[PROGRAM_NAME].push_back(obj1);
-			gameObjects.push_back(obj1);
-
-			GameObject* obj2 = new GameObject(4, "PARTICLE_EMITTER_3");
-			obj2->transform->position = glm::vec3(0.f, 10.f, 0.f);
-			obj2->transform->rotation = glm::rotate(obj2->transform->rotation, glm::radians(180.f), glm::vec3(0.f, 0.f, 1.f));
-			ParticleSystem* particleSystem2 = new ParticleSystem();
-			obj2->addComponent(particleSystem2);
-			particleSystem2->setNumParticles(32768);
-			particleSystem2->setRadius(2.f);
-			particleSystem2->setColorIni(0.145f, 0.812f, 0.8f);
-			particleSystem2->setColorEnd(0.176f, 0.345f, 0.419f);
-			particleSystem2->initializeVAOData(ShaderManager::instance()->getProgram(PROGRAM_NAME));
-			gameObjectsRendering[PROGRAM_NAME_COMPUTE].push_back(obj2);
-			gameObjectsRendering[PROGRAM_NAME].push_back(obj2);
-			gameObjects.push_back(obj2);
+#pragma region PARTICLE_EMITTER_3
+			{
+				GameObject* obj2 = new GameObject(4, "PARTICLE_EMITTER_3");
+				obj2->transform->position = glm::vec3(0.f, 10.f, 0.f);
+				obj2->transform->rotation = glm::rotate(obj2->transform->rotation, glm::radians(180.f), glm::vec3(0.f, 0.f, 1.f));
+				ParticleSystem* particleSystem2 = new ParticleSystem();
+				obj2->addComponent(particleSystem2);
+				particleSystem2->setNumParticles(32768);
+				particleSystem2->setRadius(2.f);
+				particleSystem2->setColorIni(0.145f, 0.812f, 0.8f);
+				particleSystem2->setColorEnd(0.176f, 0.345f, 0.419f);
+				particleSystem2->initializeVAOData(ShaderManager::instance()->getProgram(PROGRAM_NAME));
+				gameObjectsRendering[PROGRAM_NAME_COMPUTE].push_back(obj2);
+				gameObjectsRendering[PROGRAM_NAME].push_back(obj2);
+				gameObjects.push_back(obj2);
+			}
+#pragma endregion
 
 			GameObject* sphere = new GameObject(2, "SPHERE");
 			sphere->transform->position = glm::vec3(0.f, -15.f, 0.f);

@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <glm/glm.hpp>
+#include "engine/utils/Clock.h"
 #include "engine/graphics/IComputable.h"
 #include "engine/graphics/IRenderizable.h"
 #include "engine/graphics/ProgramObject.h"

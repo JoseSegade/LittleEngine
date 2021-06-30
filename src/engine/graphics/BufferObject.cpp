@@ -96,7 +96,7 @@ LittleEngine::BufferObject* LittleEngine::BufferObject::addDataToShaderSpecifyDa
 	glGenBuffers(1, &id);
 	glBindBuffer(bufferType, id);
 	unsigned int sizeTimesData = size * dataSize;
-	glBufferData(bufferType, sizeTimesData, data, GL_DYNAMIC_DRAW);
+	glBufferData(bufferType, sizeTimesData, data, GL_STATIC_DRAW);
 	return this;
 }
 

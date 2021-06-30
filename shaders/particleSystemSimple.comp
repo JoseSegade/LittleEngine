@@ -24,7 +24,7 @@ layout(std140, binding=1) buffer Atra {
     Atractor atractors[ ];
 };
 
-layout(local_size_x=128, local_size_y=1, local_size_z=1) in;
+layout(local_size_x=512, local_size_y=1, local_size_z=1) in;
 
 layout(location=0) uniform float  time;
 layout(location=1) uniform int    particlesCount;
@@ -67,7 +67,7 @@ void main()
 	vec4 pp = p + vp * timeStep + .5 * timeStep * timeStep * gravity;
 
 	for(int i = 0; i < atractors.length(); ++i)
-	{
+	{		 
 	    float dist = distance(pp, atractors[i].position) * 100000.0;
 		float field = 99999.0 / dist * dist;
 		field = clamp(field, 0.0, atractors[i].force.x);

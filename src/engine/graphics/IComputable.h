@@ -2,7 +2,7 @@
 #ifndef ICOMPUTABLE_H_
 #define ICOMPUTABLE_H_
 
-#define LITTLE_ENGINE_WORK_GROUP_SIZE 128
+#define LITTLE_ENGINE_WORK_GROUP_SIZE 512
 
 #include "engine/scene/GameObject.h"
 #include "engine/graphics/ProgramObject.h"
