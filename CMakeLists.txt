@@ -46,7 +46,11 @@ endif()
 find_package(Python3 COMPONENTS Interpreter Development)
 if(NOT PYTHON3_FOUND)
     message(FATAL_ERROR "Python 3 interpreter not installed. Please download and install python to continue. See: https://www.python.org/downloads/")
-    endif()
+endif()
+
+set_directory_properties(PROPERTIES
+    VS_STARTUP_PROJECT "${PROJECT_NAME}"
+)
 
 add_library(lodepng 
     STATIC 
